@@ -67,71 +67,7 @@ Route::group(['middleware' => ['api','track'], 'namespace' => 'Extension\Site\Ht
     //Pages
     Route::get('page/{slug}','ApiController@getPage');
 
-    //--Has Business
-    Route::get('auth/business','BusinessController@hasBusiness');
-
-    //Business Profile
-    Route::get('profile/{slug}','BusinessController@getProfile');
-
-    Route::post('profile/post-contact/{id}','BusinessController@postContact');
-    Route::post('profile/post-appointment/{id}','BusinessController@postAppointment');
-
-    Route::get('add-business','BusinessController@addBusiness');
-    Route::post('post-business','BusinessController@postBusiness');
-    Route::get('business/{id}/edit/{source_id}','BusinessController@editBusiness');
-    Route::post('business/{id}/update/{source_id}','BusinessController@updateBusiness');
-
-    Route::post('business/upload/image/{id}','BusinessController@uploadImage');
-
-    Route::post('business/{id}/working-hours/{source_id}','BusinessController@UpdateHours');
-
-    //Business list//
-    Route::get('business/list/new/{limit?}','BusinessController@list_New');
-    Route::get('business/list/visit/{limit?}','BusinessController@list_Visit');
-    Route::get('business/list/sponsored/{limit?}','BusinessController@getSponsored');
-
-    Route::get('categories','BusinessController@getCategories');
-    Route::get('locations','BusinessController@getLocations');
-
-    Route::get('search/location/{any}','BusinessController@searchLocation');
-    Route::get('search/keyword/{any}','BusinessController@searchKeyword');
-    Route::post('search/business','BusinessController@postSearch');
-    Route::get('search/{params?}','BusinessController@search');
-
-    Route::get('keywords','BusinessController@getKeywords');
-
-    
-
-    //--Generate Node Form
-    Route::get('create-form/{slug}','ProductController@getFormFields');
-
-    //--Reviews
-    Route::get('reviews','BusinessController@reviews');
-    Route::get('reviews/{node_id}','ReviewController@reviews');
-    Route::post('review/submit','ReviewController@store');
-    //--End of Reviews
-
-    Route::get('products/{id}','ProductController@index');
-    Route::get('product/{id}/edit/{source}','ProductController@editProduct');
-    Route::post('product/{id}/edit/{source}','ProductController@updateProduct');
-    Route::post('delete/photo/{id}','ProductController@deletePhoto');
-
-
-    Route::post('product/add/{id}','ProductController@postProduct');
-    
-
-    //--Banner
-    Route::get('banners/{homepage}/{limit}','ApiController@getBanner');
-
-    //--Popular tags
-    Route::get('tags/popular','TagsController@getPopularTags');
-
-    //Payment
-    Route::post('payment', 'PaymentController@checkout');
-   
-    //--Browse
-    Route::get('tag/{all?}','TagsController@getTag')->where(['all' => '.*']);
-    Route::get('browse/{all?}', 'BusinessController@browse')->where(['all' => '.*']);
+    Route::get('roomtypes','RoomTypeController@getRoomtype');
 
 
 });

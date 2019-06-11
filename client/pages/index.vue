@@ -60,7 +60,19 @@
 export default {
 
   layout: "home",
+ data() {
+    return {
+      nodes:[]
+    };
+  },
 
+mounted() {
+    this.$axios.get("roomtypes").then(response => {
+      this.nodes = response.data;
 
+      console.log(this.nodes);
+
+    });
+  }
 };
 </script>

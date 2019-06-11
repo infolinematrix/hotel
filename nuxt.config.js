@@ -3,6 +3,13 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   mode: 'universal',
   srcDir: 'client/',
+
+  env: {
+    baseUrl: process.env.API_URL || 'http://localhost:8000',
+    appName: process.env.APP_NAME || 'Hotel',
+    appLocale: process.env.APP_LOCALE || 'en',
+    githubAuth: !!process.env.GITHUB_CLIENT_ID
+  },
   /*
    ** Headers of the page
    */
@@ -34,9 +41,6 @@ export default {
     ]
   },
 
-  env: {
-    baseUrl: process.env.API_URL || 'http://localhost:8000'
-  },
   /*
    ** Customize the progress-bar color
    */
@@ -63,15 +67,11 @@ export default {
   modules: [
     '@nuxtjs/vuetify',
     '@nuxtjs/axios',
+
   ],
   /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
-  /*axios: {
-    //baseURL: process.env.baseUrl
-  },*/
-  /*
+
+
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
    */

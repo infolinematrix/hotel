@@ -11,14 +11,14 @@ class NsRoomtype extends NodeSourceExtension {
     /**
      * The fillable fields for the model.
      */
-    protected $fillable = ['description', 'price', 'discount', 'facilities'];
+    protected $fillable = ['description', 'price', 'discount', 'facilities', 'no_of_rooms'];
 
     /**
      * Returns the fields for the model
      */
     public static function getSourceFields()
     {
-        return ['description', 'price', 'discount', 'facilities'];
+        return ['description', 'price', 'discount', 'facilities', 'no_of_rooms'];
     }
 
     /**

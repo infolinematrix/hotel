@@ -57,6 +57,15 @@ class EditRoomtypeForm extends Form {
             
 
         ]);
+                                $this->add('no_of_rooms', 'text', [
+            'label' => 'No of Rooms',
+            'help_block' => ['text' => ''],
+
+            
+            
+            
+
+        ]);
                     }
 
 }
