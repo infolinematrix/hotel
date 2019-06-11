@@ -71,5 +71,9 @@ Route::group(['middleware' => ['api','track'], 'namespace' => 'Extension\Site\Ht
 
     Route::get('room/{slug}','RoomTypeController@index');
 
+    Route::get('checkavailibulity','RoomTypeController@checkAvailibility');
+
+    Route::get('checkout','RoomTypeController@checkOut');
+
 
 });
