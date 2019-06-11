@@ -3,6 +3,13 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   mode: 'universal',
   srcDir: 'client/',
+
+   env: {
+        apiUrl: process.env.APP_URL || 'http://localhost:8000/api',
+        appName: process.env.APP_NAME || 'Hotel',
+        appLocale: process.env.APP_LOCALE || 'en',
+        githubAuth: !!process.env.GITHUB_CLIENT_ID
+    },
   /*
   ** Headers of the page
   */
@@ -38,6 +45,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+
+      '~plugins/axios'
   ],
   /*
   ** Nuxt.js modules
@@ -46,13 +55,13 @@ export default {
     '@nuxtjs/vuetify',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {
-  },
+  
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module

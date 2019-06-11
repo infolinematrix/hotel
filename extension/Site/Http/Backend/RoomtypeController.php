@@ -33,7 +33,6 @@ class RoomtypeController extends ReactorController
         $nodes = Node::withType('roomtype')->sortable()
             ->translatedIn(locale())
             ->paginate(20);
-
         return view('Site::backend.roomtype.index', compact('nodes'));
 
     }
@@ -94,6 +93,10 @@ class RoomtypeController extends ReactorController
         $form->modify('discount','number',[
 
             'rules' => 'required'
+        ]);
+
+        $form->modify('no_of_rooms','number',[
+            'rules' => 'required',
         ]);
         return view('Site::backend.roomtype.edit', compact('form', 'node', 'locale', 'source'));
     }

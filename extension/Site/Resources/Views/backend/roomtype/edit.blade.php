@@ -60,10 +60,13 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            {!! form_row($form->no_of_rooms) !!}
+                                        </div>
+                                        <div class="col-md-4">
                                             {!! form_row($form->price) !!}
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             {!! form_row($form->discount) !!}
                                         </div>
                                     </div>
