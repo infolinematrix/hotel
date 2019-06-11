@@ -15,6 +15,9 @@ const mutations = {
     append(state, payload) {
         state.cart.push(payload)
     },
+    delete(state, payload) {
+        state.cart.splice(state.cart.indexOf(payload), 1);
+    },
 }
 
 // actions
@@ -23,6 +26,10 @@ const actions = {
     addToCart(context, params) {
         context.commit('append', params)
     },
+
+    deleteFromCart (context, params) {
+        context.commit('delete', params)
+    }
 }
 
 
