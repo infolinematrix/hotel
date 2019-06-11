@@ -1,15 +1,19 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
+
 
 export default {
   mode: 'universal',
   srcDir: 'client/',
 
   env: {
-    baseUrl: process.env.API_URL || 'http://localhost:8000',
+    baseUrl: process.env.API_URL || 'http://localhost:8080/api',
     appName: process.env.APP_NAME || 'Hotel',
     appLocale: process.env.APP_LOCALE || 'en',
     githubAuth: !!process.env.GITHUB_CLIENT_ID
   },
+
+  
   /*
    ** Headers of the page
    */
@@ -54,6 +58,10 @@ export default {
     '~/assets/style/app.styl',
     '~/assets/style/style.css'
   ],
+
+  axios: {
+    baseURL: process.env.baseUrl
+  },
   /*
    ** Plugins to load before mounting the App
    */
@@ -65,8 +73,10 @@ export default {
    ** Nuxt.js modules
    */
   modules: [
+    '@nuxtjs/dotenv',
     '@nuxtjs/vuetify',
     '@nuxtjs/axios',
+    
 
   ],
   /*

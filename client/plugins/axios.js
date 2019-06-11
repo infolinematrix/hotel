@@ -6,6 +6,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 export default  ({ app, store, redirect, $axios }) => {
   $axios.defaults.baseURL = process.env.baseUrl
 
+
   if (process.server) {
     return
   }

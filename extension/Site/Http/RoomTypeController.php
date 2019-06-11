@@ -49,14 +49,31 @@ class RoomTypeController extends PublicController
             $data[] = [
 
                 'title' => $node->getTitle(),
+                'slug' => $node->getName(),
                 'description' => $node->description,
                 'image' => $img->path,
                 'price' => $node->price
-
             ];
         }
 
         return $data;
+
+    }
+
+    public function index(NodeRepository $nodeRepository, $name){
+
+        $node = $nodeRepository->getNodeAndSetLocale($name, true, false);
+
+        $data['node'] = [
+            'id' => $node->getKey(),
+            'title' => $node->getTitle(),
+            'descrription' => $node->description,
+            'no_of_rooms' => $node->no_of_rooms,
+            'price' => $node->price
+        ];
+
+        return $data;
+
 
     }
 }
