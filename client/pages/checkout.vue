@@ -120,13 +120,7 @@ export default {
   },
   methods: {
     validateDate() {
-      if (this.to_date)
-        // as myDate can be null
-        // you have to set the this.myDate again, so vue can detect it changed
-        // this is not a caveat of this specific solution, but of any binding of dates
-        var mydt = new Date(this.from_date.getDate() + 1);
-
-      alert(mydt);
+      alert("HELLO");
     }
   }
 };
