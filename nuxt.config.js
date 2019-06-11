@@ -68,6 +68,7 @@ export default {
   plugins: [
     '~plugins/vform',
     '~plugins/axios',
+    '~plugins/moment',
   ],
   /*
    ** Nuxt.js modules

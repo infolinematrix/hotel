@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap justify-center align-center>
-    <v-flex xs12 md6>
+    <v-flex xs12 md7>
       <v-layout row wrap>
         <div v-if="carts">
           <v-flex xs12 class="text-xs-center mb-4">
@@ -11,7 +11,7 @@
           <v-flex xs12>
             <v-card flat>
               <v-toolbar flat>
-                <v-toolbar-title class="title">Booking List</v-toolbar-title>
+                <v-toolbar-title class="title">Booking </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon>1200</v-btn>
                 <v-btn small flat @click="addToCart()">Add to Cart</v-btn>
@@ -20,14 +20,21 @@
               <v-list two-line>
                 <v-list-tile v-for="cart in this.carts" :key="cart" avatar>
                   <v-list-tile-content>
-                    <v-list-tile-title>Super Delux Room</v-list-tile-title>
-                    <v-list-tile-sub-title>12/04/2019 - 18/04/2019</v-list-tile-sub-title>
+                    <v-list-tile-title>{{ cart.room_title}}</v-list-tile-title>
+                    <v-list-tile-sub-title>{{ cart.from_date }} - {{ cart.to_date }}</v-list-tile-sub-title>
                   </v-list-tile-content>
 
-                  <v-list-tile-action class="mr-4">3 Days @ 1200</v-list-tile-action>
+                  
+                  <v-list-tile-action>
+                    {{ cart.no_of_rooms }} Rooms @ ₹ {{ cart.room_tariff }}
+                  </v-list-tile-action>
+
+                  <v-list-tile-action class="ml-4" style="width:50px">
+                    
+                  </v-list-tile-action>
 
                   <v-list-tile-action>
-                    <strong>₹3600.00</strong>
+                    <strong>₹ {{ cart.room_tariff * cart.no_of_rooms * cart.no_of_days}}</strong>
                   </v-list-tile-action>
 
                   <v-list-tile-action class="ml-4">
@@ -43,7 +50,7 @@
           <v-flex xs12>
             <v-card flat>
               <v-toolbar flat dense>
-                <v-toolbar-title class="title">Booking Info</v-toolbar-title>
+                <v-toolbar-title class="title">Guest Information</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
 
@@ -66,7 +73,9 @@
                       <v-text-field v-model="lastname" label="Phone" required></v-text-field>
                     </v-flex>
 
-                    <v-flex xs12 md4></v-flex>
+                    <v-flex xs12>
+                      <v-btn large color="red" depressed block dark>Confirm Booking &amp; Checkout</v-btn>
+                    </v-flex>
                   </v-layout>
                 </v-container>
               </v-form>
@@ -104,17 +113,12 @@ export default {
           src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg"
         }
       ],
+      
       from_date: new Date().toISOString().substr(0, 10),
       from_date_menu: false,
 
       to_date: new Date().toISOString().substr(0, 10),
       to_date_menu: false,
-      cart: {
-        room_type: 1,
-        room_title: "Super Delux Room",
-        room_tariff: 1250.0,
-        no_of_days: 3
-      }
     };
   },
   computed: {
@@ -127,8 +131,12 @@ export default {
       this.$store.dispatch("cart/addToCart", this.cart);
     },
 
-    deleteCartItem(event){
+    deleteCartItem(event) {
       this.$store.dispatch("cart/deleteFromCart", event);
+    },
+    update_item_value(){
+      //this.item_total = this.no_room * cart.room_tariff
+
     }
   }
 };

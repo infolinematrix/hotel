@@ -8,7 +8,10 @@
             class="grey--text"
           >Buddha Park Residency at Ravangla is having 17 luxury Rooms with modern facilities.</div>
         </v-flex>
-
+<span></span>
+<div>
+  {{ this.no_of_days }}
+</div>
         <v-flex xs12>
           <v-card flat>
             <v-layout row wrap>
@@ -107,7 +110,7 @@
                           <v-menu
                             ref="from_date_menu"
                             v-model="from_date_menu"
-                            :close-on-content-click="true"
+                            :close-on-content-click="false"
                             :nudge-right="40"
                             :return-value.sync="from_date"
                             lazy
@@ -145,7 +148,7 @@
                             <template v-slot:activator="{ on }">
                               <v-text-field
                                 v-model="to_date"
-                                label="Check in"
+                                label="Check out"
                                 prepend-icon="event"
                                 readonly
                                 v-on="on"
@@ -163,14 +166,36 @@
                           </v-menu>
                         </v-flex>
 
+                        <v-flex xs12 md6>
+                          <v-select
+                            label="Rooms"
+                            prepend-icon="local_hotel"
+                            v-model="no_room"
+                            :items="no_rooms"
+                          ></v-select>
+                        </v-flex>
+
+                        <v-flex>
+                          {{ this.$moment(this.to_date).diff(this.$moment(this.from_date), 'days') }} Days
+                        </v-flex>
+
                         <v-flex xs12>
                           <v-btn large color="red" dark depressed block>Check availibility</v-btn>
                         </v-flex>
 
                         <v-flex xs12>
-                          <v-alert type="info" :value="true"><strong class="title">8 </strong>Rooms are available in the date range.</v-alert>
+                          <v-alert type="info" :value="true">
+                            <strong class="title">8</strong>Rooms are available in the date range.
+                          </v-alert>
 
-                          <v-btn large color="red" dark depressed block @click="addToCart()">Book now</v-btn>
+                          <v-btn
+                            large
+                            color="red"
+                            dark
+                            depressed
+                            block
+                            @click="addToCart()"
+                          >Book now</v-btn>
                         </v-flex>
                       </v-layout>
                     </v-container>
@@ -201,23 +226,23 @@
 export default {
   components: {},
   async asyncData({ params, $axios }) {
-
     return await $axios.get(`room/${params.roomtype}`).then(res => {
-
       return {
-        room: res.data.node,
-        
-        }
+        room: res.data.node
+      };
     });
   },
   data() {
     return {
+      no_room: 1,
+      no_rooms: [1, 2, 3, 4, 5, 6, 7],
       cart: {
         room_type: null,
         room_title: null,
         room_tariff: null,
         from_date: null,
-        to_date: null
+        to_date: null,
+        no_room: 0
       },
       valid: true,
       items: [
@@ -237,22 +262,24 @@ export default {
       from_date: new Date().toISOString().substr(0, 10),
       from_date_menu: false,
 
+      //to_date: new Date().toISOString().substr(0, 10),
       to_date: new Date().toISOString().substr(0, 10),
-      to_date_menu: false
+      
+      to_date_menu: false,
+      
     };
   },
 
-  
-
   methods: {
-
-
     addToCart() {
-      this.cart.room_type =  this.room.id,
-      this.cart.room_title =  this.room.title,
-      this.cart.room_tariff =  this.room.price,
-      this.cart.from_date = this.from_date, 
-      this.cart.to_date = this.to_date, 
+      this.cart.room_type = this.room.id;
+      this.cart.room_title = this.room.title;
+      this.cart.room_tariff = this.room.price;
+      this.cart.from_date = this.from_date;
+      this.cart.to_date = this.to_date;
+      this.cart.no_of_rooms = this.no_room;
+      this.cart.no_of_days = this.$moment(this.to_date).diff(this.$moment(this.from_date), 'days')
+      //console.log(this.cart)
       this.$store.dispatch("cart/addToCart", this.cart);
     },
     validateDate() {
