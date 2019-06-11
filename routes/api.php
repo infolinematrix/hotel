@@ -69,5 +69,7 @@ Route::group(['middleware' => ['api','track'], 'namespace' => 'Extension\Site\Ht
 
     Route::get('roomtypes','RoomTypeController@getRoomtype');
 
+    Route::get('room/{slug}','RoomTypeController@index');
+
 
 });
