@@ -1,0 +1,112 @@
+
+.form-group__relation li{padding-right: .5em; padding-left: 0}
+
+.related-items {
+    background-color: #fff;
+    margin-top: .5em;
+    padding-left: 0px;
+
+}
+
+.related-items.ui-sortable li {
+    cursor: move
+}
+
+.related-items .placeholder {
+    content: ' ';
+    height: 2.5em;
+    background-color: #fafafa;
+}
+
+.related-item {
+    border-bottom: 0px solid #e5e7e9;
+    line-height: 2.5em;
+    padding: 0 3em 0 1em;
+    position: relative;
+    width: 100%;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal
+}
+
+.related-item__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2.5em;
+    width: 2.5em;
+    cursor: pointer;
+    text-align: center;
+    line-height: 2.5em !important;
+    color: #95a5a6
+}
+
+.related-item:last-child {
+    border-bottom: 0
+}
+
+.related-search {
+    position: relative;
+}
+
+.related-search__hint {
+    font-size: .625em;
+    color: #bdc3c7
+}
+
+.related-search__results {
+    position: absolute;
+    top: 2.5em;
+    left: 0; padding-left: 1em;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 .0625em .25em 0 rgba(0, 0, 0, .25);
+    z-index: 100;
+    font-weight:bold
+}
+
+.related-search__results--hidden {
+    display: none
+}
+
+.related-search__result {
+    border-bottom: 1px solid #e5e7e9;
+    line-height: 2.5em;
+    cursor: pointer;
+    font-size: .875em;
+    padding: 0 1em;
+    position: relative;
+    width: 100%;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    display: block !important
+}
+
+.related-search__result:last-child {
+    border-bottom: 0
+}
+
+.related-search__result--selected {
+    color: red;
+}
+
+.related-search__input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    opacity: 0
+}
+
+.related-search__search {
+    border-bottom: 0px solid #e5e7e9
+}

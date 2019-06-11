@@ -1,0 +1,73 @@
+.gallery {
+    margin-left: -5px;
+}
+
+.gallery > ul {
+    margin-bottom: 0;
+}
+
+.gallery li {
+    margin-bottom: 10px !important;
+}
+
+.gallery .picture {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery .picture:hover .actions {
+    bottom: 0;
+}
+
+.gallery .picture .tags {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    direction: rtl;
+}
+
+.gallery .picture .tags .label {
+    display: table;
+    margin-bottom: 2px;
+    text-align: left;
+    direction: ltr;
+}
+
+.gallery .picture .actions {
+    width: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 33px;
+    left: 0;
+    bottom: -33px;
+    *zoom: 1;
+    -webkit-transition: bottom 100ms ease;
+    -moz-transition: bottom 100ms ease;
+    -o-transition: bottom 100ms ease;
+    transition: bottom 100ms ease;
+}
+
+.gallery .picture .actions:before, .gallery .picture .actions:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.gallery .picture .actions:after {
+    clear: both;
+}
+
+.gallery .picture .actions.show-actions {
+    bottom: 0;
+}
+
+.gallery .picture .actions .btn-link {
+    color: white;
+    text-shadow: none;
+}
+
+.gallery .picture .actions .pull-right .btn-link {
+    position: relative;
+    top: 2px;
+}
