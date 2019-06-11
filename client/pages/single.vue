@@ -189,7 +189,7 @@
             <blockquote
               class="blockquote"
             >Towering into the blue skies , against the enormous mountain ranges ,the massive Buddha statue spreads wonderful serenity on the ambience around it. The mighty kanchanjunga rises behind the statue playing hide and seek with the clouds . The park is enormous.</blockquote>
-            <v-btn large color="red" dark depressed class="mt-3">Read more..</v-btn>
+            <v-btn large color="green" dark depressed class="mt-3">Read more..</v-btn>
           </v-flex>
         </v-layout>
       </section>

@@ -13,10 +13,11 @@
               <v-toolbar-title class="title">Booking List</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon>1200</v-btn>
+              <v-btn small flat @click="addToCart()">Add to Cart</v-btn>
             </v-toolbar>
 
             <v-list two-line>
-              <v-list-tile v-for="i in 2" :key="i" avatar>
+              <v-list-tile v-for="cart in this.carts" :key="cart" avatar>
                 <v-list-tile-content>
                   <v-list-tile-title>Super Delux Room</v-list-tile-title>
                   <v-list-tile-sub-title>12/04/2019 - 18/04/2019</v-list-tile-sub-title>
@@ -25,7 +26,7 @@
                 <v-list-tile-action class="mr-4">3 Days @ 1200</v-list-tile-action>
 
                 <v-list-tile-action>
-                  <strong>3600.00</strong>
+                  <strong>₹3600.00</strong>
                 </v-list-tile-action>
 
                 <v-list-tile-action class="ml-4">
@@ -92,6 +93,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   components: {},
   data() {
@@ -115,12 +117,27 @@ export default {
       from_date_menu: false,
 
       to_date: new Date().toISOString().substr(0, 10),
-      to_date_menu: false
+      to_date_menu: false,
+      cart: {
+        room_type: 1,
+        room_title: 'Super Delux Room',
+        room_tariff: 1250.00,
+        no_of_days: 3
+      }
     };
   },
+  computed: {
+    ...mapGetters({
+      carts: "cart/carts"
+      //user_role: "auth/user_role"
+    })
+  },
   methods: {
-    validateDate() {
-      alert("HELLO");
+    addToCart() {
+      //alert(this.cart.room_title);
+      
+      this.$store.commit("cart/append", this.cart);
+      //alert(this.$store.state.cart)
     }
   }
 };
