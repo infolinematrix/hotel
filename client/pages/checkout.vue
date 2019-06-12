@@ -42,6 +42,7 @@
                       <v-icon color="grey lighten-1">close</v-icon>
                     </v-btn>
                   </v-list-tile-action>
+                  
                 </v-list-tile>
               </v-list>
             </v-card>
