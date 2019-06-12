@@ -128,7 +128,16 @@
                                 v-on="on"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="from_date" no-title scrollable></v-date-picker>
+                            <v-date-picker v-model="from_date" no-title scrollable>
+                              <v-spacer></v-spacer>
+                              <v-btn flat color="primary" @click="from_date_menu = false">Cancel</v-btn>
+                              <v-btn
+                                flat
+                                color="primary"
+                                @click="$refs.from_date_menu.save(from_date)"
+                              >OK</v-btn>
+
+                            </v-date-picker>
                           </v-menu>
                         </v-flex>
 
@@ -154,7 +163,8 @@
                                 v-on="on"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="to_date" no-title scrollable>
+                            <v-date-picker v-model="to_date" no-title scrollable
+                            >
                               <v-spacer></v-spacer>
                               <v-btn flat color="primary" @click="to_date_menu = false">Cancel</v-btn>
                               <v-btn
