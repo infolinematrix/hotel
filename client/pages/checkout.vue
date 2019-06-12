@@ -212,6 +212,8 @@ export default {
         this.$axios
             .post('/checkout', this.cart)
             .then(response => {
+            
+            console.log(response.data)
 
             this.dialog = false,    
             swal.fire({

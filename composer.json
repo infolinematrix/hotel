@@ -34,6 +34,7 @@
     "davejamesmiller/laravel-breadcrumbs": "^5.2",
     "fideloper/proxy": "^4.0",
     "igaster/laravel-theme": "^2.0",
+    "instamojo/instamojo-php": "^0.4.0",
     "kodeine/laravel-meta": "dev-master",
     "laracasts/flash": "^3.0",
     "laravel/framework": "5.6.*",

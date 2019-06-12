@@ -70,7 +70,7 @@ class PaymentController extends PublicController
     public function handleProviderCallback($provider, Request $request)
     {
 
-        dd($provider);
+        return 'HELLO PRO';
 
     }
     
@@ -89,7 +89,7 @@ class PaymentController extends PublicController
 
 
 
-    public function checkout1(Request $request){
+    public function instamojo(Request $request){
 
         //return $request->all();
 
