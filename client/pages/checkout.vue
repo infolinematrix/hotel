@@ -55,27 +55,78 @@
                 <v-spacer></v-spacer>
               </v-toolbar>
 
-              <v-form v-model="valid">
+              <v-form v-model="valid" @submit.prevent="confirm_booking">
                 <v-container>
                   <v-layout row wrap>
                     <v-flex xs12 md6>
-                      <v-text-field v-model="firstname" label="First name" required></v-text-field>
+                      <v-text-field 
+                      v-model="cart.firstname" 
+                      label="First name" 
+                      v-validate="'required'"
+                      :error-messages="errors.collect('First Name')"
+                      data-vv-name="First Name"
+                      required
+                      ></v-text-field>
                     </v-flex>
 
                     <v-flex xs12 md6>
-                      <v-text-field v-model="lastname" label="Last name" required></v-text-field>
+                      <v-text-field 
+                      v-model="cart.lastname" 
+                      label="Last name" 
+                      v-validate="'required'"
+                      :error-messages="errors.collect('Last Name')"
+                      data-vv-name="Last Name"
+                      required
+                      ></v-text-field>
                     </v-flex>
 
                     <v-flex xs12 md6>
-                      <v-text-field v-model="firstname" label="Email" required></v-text-field>
+                      <v-text-field 
+                      v-model="cart.email" 
+                      label="Email"
+                      v-validate="'required|email'"
+                      :error-messages="errors.collect('Email')"
+                      data-vv-name="Email"
+                      required
+                      ></v-text-field>
                     </v-flex>
 
                     <v-flex xs12 md6>
-                      <v-text-field v-model="lastname" label="Phone" required></v-text-field>
+                      <v-text-field 
+                      v-model="cart.phone" 
+                      label="Phone"
+                      v-validate="'required'"
+                      :error-messages="errors.collect('Phone')"
+                      data-vv-name="Phone"
+                      required
+                      ></v-text-field>
                     </v-flex>
 
+<div class="text-xs-center">
+        <v-dialog
+          v-model="dialog"
+          hide-overlay
+          persistent
+          width="300"
+        >
+      <v-card
+        color="primary"
+        dark
+      >
+      <v-card-text>
+          Please stand by
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
+  
                     <v-flex xs12>
-                      <v-btn large color="red" depressed block dark>Confirm Booking &amp; Checkout</v-btn>
+                      <v-btn type="submit" large color="red" depressed block dark>Confirm Booking &amp; Checkout</v-btn>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -94,11 +145,16 @@
 </template>
 
 <script>
+import Form from "vform";
 import { mapGetters } from "vuex";
+import VeeValidate from "vee-validate";
+import swal from "sweetalert2";
 export default {
+  
   components: {},
   data() {
     return {
+      dialog: false,
       valid: true,
       items: [
         {
@@ -120,6 +176,14 @@ export default {
 
       to_date: new Date().toISOString().substr(0, 10),
       to_date_menu: false,
+
+      cart: {
+        firstname: null,
+        lastname: null,
+        email: null,
+        phone: null,
+        carts: []  
+      },
     };
   },
   computed: {
@@ -138,7 +202,40 @@ export default {
     update_item_value(){
       //this.item_total = this.no_room * cart.room_tariff
 
-    }
-  }
+    },
+
+     confirm_booking() {
+        this.dialog = true,
+        this.cart.carts = this.carts;
+        this.$validator.validateAll().then(result => {
+        if (result) {
+        this.$axios
+            .post('/checkout', this.cart)
+            .then(response => {
+
+            this.dialog = false,    
+            swal.fire({
+            title: "Booking Confirmed",
+            type: "success",
+            animation: true,
+            showCloseButton: true
+            }).then(result => {
+              if (result.value) {
+              
+
+            }
+            })
+          
+            
+
+            })
+        }else{
+
+          this.dialog = false
+        }
+        })
+     }
+  },
+
 };
 </script>

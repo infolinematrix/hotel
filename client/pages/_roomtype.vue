@@ -128,7 +128,16 @@
                                 v-on="on"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="from_date" no-title scrollable></v-date-picker>
+                            <v-date-picker v-model="from_date" no-title scrollable>
+                              <v-spacer></v-spacer>
+                              <v-btn flat color="primary" @click="from_date_menu = false">Cancel</v-btn>
+                              <v-btn
+                                flat
+                                color="primary"
+                                @click="$refs.from_date_menu.save(from_date)"
+                              >OK</v-btn>
+
+                            </v-date-picker>
                           </v-menu>
                         </v-flex>
 
@@ -154,7 +163,8 @@
                                 v-on="on"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="to_date" no-title scrollable>
+                            <v-date-picker v-model="to_date" no-title scrollable
+                            >
                               <v-spacer></v-spacer>
                               <v-btn flat color="primary" @click="to_date_menu = false">Cancel</v-btn>
                               <v-btn
@@ -171,7 +181,8 @@
                             label="Rooms"
                             prepend-icon="local_hotel"
                             v-model="no_room"
-                            :items="no_rooms"
+                            :items="room.no_of_rooms"
+                            @change="selectRoom()"
                           ></v-select>
                         </v-flex>
 
@@ -180,15 +191,15 @@
                         </v-flex>
 
                         <v-flex xs12>
-                          <v-btn large color="red" dark depressed block>Check availibility</v-btn>
+                          <v-btn :disabled="btnDisable" depressed large  block @click="checkAvailibility()" >Check availibility</v-btn>
                         </v-flex>
 
-                        <v-flex xs12>
-                          <v-alert type="info" :value="true">
-                            <strong class="title">8</strong>Rooms are available in the date range.
+                        <v-flex xs12 v-if="message">
+                          <v-alert :type="this.message_type" :value="true">
+                            <strong class="title"></strong>{{ message }}
                           </v-alert>
 
-                          <v-btn
+                          <v-btn v-if="this.available"
                             large
                             color="red"
                             dark
@@ -236,6 +247,11 @@ export default {
     return {
       no_room: 1,
       no_rooms: [1, 2, 3, 4, 5, 6, 7],
+      btnDisable: false,
+      message: null,
+      available: null,
+      message_type: null,
+           
       cart: {
         room_type: null,
         room_title: null,
@@ -271,6 +287,42 @@ export default {
   },
 
   methods: {
+
+    selectRoom(){
+
+      this.btnDisable = false
+      this.message = null,
+      this.available = null
+
+    },
+    checkAvailibility(){
+
+        let checkData = new FormData();
+        checkData.append("type", this.room.id);
+        checkData.append("from_date", this.from_date);
+        checkData.append("to_date", this.to_date);
+        checkData.append("no_room", this.no_room);
+
+         this.$axios
+            .post('/checkavailibulity', checkData)
+            .then(response => {
+
+                if(response.data == 'yes'){
+
+                this.available = true;
+                this.message_type = 'info'    
+                this.message = 'Rooms are Available in the date range'
+               
+                this.btnDisable = true;
+                }else{
+
+                this.message_type = 'error'    
+                this.message = 'No Rooms are Available in the date range'
+                this.btnDisable = false;
+                
+                }
+            })
+    },
     addToCart() {
       this.cart.room_type = this.room.id;
       this.cart.room_title = this.room.title;
@@ -278,8 +330,9 @@ export default {
       this.cart.from_date = this.from_date;
       this.cart.to_date = this.to_date;
       this.cart.no_of_rooms = this.no_room;
+
       this.cart.no_of_days = this.$moment(this.to_date).diff(this.$moment(this.from_date), 'days')
-      //console.log(this.cart)
+      
       this.$store.dispatch("cart/addToCart", this.cart);
     },
     validateDate() {
