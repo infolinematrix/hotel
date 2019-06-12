@@ -44,6 +44,8 @@ class RoomTypeController extends PublicController
 
         $nodes = Node::withType('roomtype')->sortable()->published()->translatedIn(locale())->get();
 
+
+
         foreach ($nodes as $node){
 
             $img = $node->getImages()->first();
@@ -66,11 +68,18 @@ class RoomTypeController extends PublicController
 
         $node = $nodeRepository->getNodeAndSetLocale($name, true, false);
 
+        $no_of_rooms = $node->no_of_rooms;
+
+        $no = [];
+        for($i = 1; $i<=$no_of_rooms; $i++) {
+            $no[] = $i;
+        }
+
         $data['node'] = [
             'id' => $node->getKey(),
             'title' => $node->getTitle(),
             'descrription' => $node->description,
-            'no_of_rooms' => $node->no_of_rooms,
+            'no_of_rooms' => $no,
             'price' => $node->price
         ];
 
@@ -81,10 +90,10 @@ class RoomTypeController extends PublicController
     public function checkAvailibility(Request $request){
 
 
-        $from_date = '2019-06-20';
-        $to_date = '2019-06-25';
-        $type = 1117;
-        $rooms = 2;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        $type = $request->type;
+        $rooms = $request->no_room;
 
         $room_type = Node::find($type);
 
@@ -97,13 +106,22 @@ class RoomTypeController extends PublicController
 
         $total_room = ($room_type->no_of_rooms - $booked_rooms);
 
+
         if($total_room > 0){
 
-            return $total_room." rooms are available...";
+            if($total_room >= $rooms) {
+
+                $data = 'yes';
+                return $data;
+            }else{
+                $data = 'no';
+                return $data;
+            }
 
         }else{
 
-            return 'No rooms available';
+            $data = 'no';
+            return $data;
         }
 
 
@@ -112,16 +130,30 @@ class RoomTypeController extends PublicController
     public function checkOut(Request $request){
 
 
-        $data = [
+        $carts = $request->carts;
 
-            'type' => 1117,
-            'no_of_rooms' => 2,
-            'from_date' => '2019-06-11',
-            'to_date' => '2019-06-12',
-            'rate' => 2500 
-        ];
-        
-        Booking::insert($data);
+        foreach ($carts as $cart){
+
+
+            $data = [
+
+                'type' => $cart['room_type'],
+                'no_of_rooms' => $cart['no_of_rooms'],
+                'check_in' => $cart['from_date'],
+                'check_out' => $cart['to_date'],
+                'rate' => $cart['room_tariff'],
+                'total_amount' => ($cart['no_of_rooms'] * $cart['no_of_days'] * $cart['room_tariff']),
+                'first_name' => $request->firstname,
+                'last_name' => $request->lastname,
+                'email' => $request->email,
+                'phone' => $request->phone
+            ];
+
+           // return $data;
+            Booking::insert($data);
+        }
+
+
 
         return 'Confrimed';
     }
