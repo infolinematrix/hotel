@@ -32,8 +32,8 @@
                 </v-list-tile-content>
               </v-list-tile>
 
-              <v-btn color="red" class="white--text" depressed nuxt :to="node.slug">
-                Book Now
+              <v-btn color="red" class="white--text text-capitalize" depressed nuxt :to="node.slug">
+                View
                 <v-icon right dark>local_hotel</v-icon>
               </v-btn>
             </v-card-actions>

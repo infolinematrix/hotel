@@ -12,15 +12,13 @@ namespace Extension\Site\Http;
 use Illuminate\Http\Request;
 use Instamojo\Instamojo;
 use ReactorCMS\Http\Controllers\PublicController;
-use Omnipay\Omnipay;
 use Illuminate\Support\Facades\DB;
 use Extension\Site\Entities\Transactions;
-use Extension\Site\Entities\Promotions;
 
 class PaymentController extends PublicController
 {
     
-    
+   /* 
     public function AuthPayment(Request $request){
 
         $txn = new Transactions();
@@ -66,11 +64,14 @@ class PaymentController extends PublicController
         return $response;
 
     }
-
+*/
     public function handleProviderCallback($provider, Request $request)
     {
+        //return ($request);
+        //$req = $request->all();
+        $r = $this->provider($request, $provider);
 
-        return 'HELLO PRO';
+        return $r;
 
     }
     
@@ -89,29 +90,30 @@ class PaymentController extends PublicController
 
 
 
-    public function instamojo(Request $request){
+    public function provider(Request $request, $provider){
 
-        //return $request->all();
+       //return $request;
 
         $api = new Instamojo(
             $this->api,
             $this->auth_tocken,
             $this->endpoint
         );
+        return $api;
 
         try {
             $response = $api->paymentRequestCreate(array(
                 'purpose' => 'Promotion',
-                'amount' => $request->amount,
-                'buyer_name' => $request->first_name.' '.$request->last_name,
+                'amount' => 100, //$request->amount,
+                'buyer_name' => 'Subha Das', //$request->first_name.' '.$request->last_name,
                 'send_email' => false,
                 'send_sms' => false,
-                'email' => $request->email,
+                'email' => 'subha@gmail.com', //$request->email,
                 'phone' => '9832893116',
                 'allow_repeated_payments' => false,
                 "redirect_url" => "http://www.google.com"
             ));
-
+            //dd($response);
             return $response;
         }
         catch (Exception $e) {

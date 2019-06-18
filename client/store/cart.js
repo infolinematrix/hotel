@@ -7,6 +7,9 @@ const state = () => ({
 const getters = {
 
     carts: state => state.cart,
+    cart_counter: state => {
+        return state.cart.length
+    }
 }
 
 // mutation
@@ -27,7 +30,7 @@ const actions = {
         context.commit('append', params)
     },
 
-    deleteFromCart (context, params) {
+    deleteFromCart(context, params) {
         context.commit('delete', params)
     }
 }

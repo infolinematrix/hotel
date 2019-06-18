@@ -6,7 +6,7 @@
           <div class="headline font-weight-bold">{{ room.title }}</div>
           <div
             class="grey--text"
-          >Buddha Park Residency at Ravangla is having 17 luxury Rooms with modern facilities.</div>
+          >{{ room.meta_description }}</div>
         </v-flex>
 <span></span>
 <div>
@@ -22,10 +22,10 @@
                   </v-carousel>
                   <v-card-title primary-title>
                     <div>
-                      <h2 class="title mb-3">Kangaroo Valley Safari</h2>
+                      <h2 class="title mb-3">{{ room.title }}</h2>
                       <div
                         class="grey--text"
-                      >Towering into the blue skies , against the enormous mountain ranges ,the massive Buddha statue spreads wonderful serenity on the ambience around it. The mighty kanchanjunga rises behind the statue playing hide and seek with the clouds . The park is enormous. Buddha Park Residency at Ravangla is having 17 luxury Rooms with modern facilities.</div>
+                      >{{ room.description }}</div>
                     </div>
                   </v-card-title>
 
@@ -89,7 +89,7 @@
               </v-flex>
               <v-flex xs12 md4>
                 <v-toolbar flat>
-                  <v-toolbar-title>Book Room</v-toolbar-title>
+                  <v-toolbar-title>{{ room.title }}</v-toolbar-title>
                   <v-spacer></v-spacer>
                   <v-btn icon>
                     <v-icon>local_hotel</v-icon>
@@ -206,7 +206,7 @@
                             depressed
                             block
                             @click="addToCart()"
-                          >Book now</v-btn>
+                          >Add to My Rooms</v-btn>
                         </v-flex>
                       </v-layout>
                     </v-container>
@@ -334,6 +334,8 @@ export default {
       this.cart.no_of_days = this.$moment(this.to_date).diff(this.$moment(this.from_date), 'days')
       
       this.$store.dispatch("cart/addToCart", this.cart);
+
+      this.$router.push("checkout")
     },
     validateDate() {
       if (this.to_date)

@@ -37,8 +37,7 @@ class RoomTypeController extends PublicController
     use UseAppHelper;
 
     public $api = 'test_4fc28ab0f0ab8045f72ad419087';
-    public $auth_tocken = 'test_4356f3381134caf99f7976f178f';
-
+    public $auth_token = 'test_4356f3381134caf99f7976f178f';
     public $endpoint = 'https://test.instamojo.com/api/1.1/';
 
 
@@ -154,37 +153,23 @@ class RoomTypeController extends PublicController
 
            // return $data;
            // Booking::insert($data);
-            //return "HELLO";
-          
+           $pay = [
+            'purpose' => 'Super Delux',
+                'amount' => $data['total_amount'], //$request->amount,
+                'buyer_name' => $request->firstname.' '.$request->lastname, //$request->first_name.' '.$request->last_name,
+                'send_email' => false,
+                'send_sms' => false,
+                'email' => $data['email'], //$request->email,
+                'phone' => $data['phone'],
+                'allow_repeated_payments' => false,
+                "redirect_url" => "http://www.google.com"
+           ]; 
+
+            return $pay;
            
         }
 
-
-        $api = new Instamojo(
-            $this->api,
-            $this->auth_tocken,
-            $this->endpoint
-        );
-
-        try {
-            $response = $api->paymentRequestCreate(array(
-                'purpose' => 'Promotion',
-                'amount' => $request->amount,
-                'buyer_name' => $request->first_name.' '.$request->last_name,
-                'send_email' => false,
-                'send_sms' => false,
-                'email' => $request->email,
-                'phone' => '9832893116',
-                'allow_repeated_payments' => false,
-                "redirect_url" => "http://www.google.com"
-            ));
-
-            return $response;
-        }
-        catch (Exception $e) {
-            return 'Error: ' . $e->getMessage();
-        }
-
+        
 
         return 'Confrimed';
     }

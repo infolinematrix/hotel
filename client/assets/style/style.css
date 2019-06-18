@@ -6,3 +6,17 @@
   border:1px solid #dfdfdf
 }
 
+.swal2-container.swal2-shown {
+  font-family: 'Roboto', sans-serif;
+
+}
+.swal2-popup .swal2-title {
+  margin: 0 0 .4em;
+  font-size: 1.3em !important;
+  font-weight: 500 !important;
+}
+
+.swal2-icon-text {
+  font-size: 2.75em !important;
+  font-weight: 600 !important;
+}
