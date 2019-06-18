@@ -10,7 +10,7 @@
         </v-flex>
 
         <v-flex xs12 md4 sm6 v-for="node in this.nodes" :key="node.id">
-          <v-card height="425">
+          <v-card>
             <v-img src="room1.jpg" aspect-ratio="1.75"></v-img>
             <v-card-title primary-title>
               <h3 class="pa-0">
@@ -41,16 +41,7 @@
         </v-flex>
       </v-layout>
 
-      <section>
-        <v-layout row wrap justify-center align-center>
-          <v-flex xs12 md10 class="text-xs-center mb-4">
-            <div class="headline font-weight-bold">About Us</div>
-            <blockquote class="blockquote">Towering into the blue skies , against the enormous mountain ranges ,the massive Buddha statue spreads wonderful serenity on the ambience around it. The mighty kanchanjunga rises behind the statue playing hide and seek with the clouds . The park is enormous.</blockquote>
-            <v-btn large color="red" dark depressed class="mt-3">Read more..</v-btn>
-          </v-flex>
-
-        </v-layout>
-      </section>
+     
     </v-flex>
   </v-layout>
 </template>
@@ -59,7 +50,6 @@
 
 export default {
 
-  layout: "default",
  data() {
     return {
       nodes:[]

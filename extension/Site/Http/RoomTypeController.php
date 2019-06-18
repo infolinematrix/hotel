@@ -127,9 +127,6 @@ class RoomTypeController extends PublicController
             $data = 'no';
             return $data;
         }
-
-
-
     }
     public function checkOut(Request $request){
 
