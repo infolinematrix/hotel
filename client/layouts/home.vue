@@ -1,18 +1,8 @@
 <template>
   <v-app>
 
-    <v-toolbar fixed app class="elevation-1">
-      <v-toolbar-side-icon>
-        <v-icon size="35" color='red'>brightness_high</v-icon>
-      </v-toolbar-side-icon>
-      <v-toolbar-title class='font-weight-bold' v-text="title"/>
-      <v-spacer/>
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat>Home</v-btn>
-        <v-btn flat nuxt to="rooms">Rooms</v-btn>
-        <v-btn flat>Contact</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+   <tool-bar></tool-bar>
+
     <template>
       <v-parallax src="image2.jpg" height="600" class="hidden-xs-only">
         <v-layout align-end column justify-center>
@@ -55,7 +45,11 @@
 </template>
 
 <script>
+import ToolBar from "~/components/ToolBar.vue";
 export default {
+   components: {
+    ToolBar
+  },
   data() {
     return {
       items: [

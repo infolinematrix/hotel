@@ -2,7 +2,6 @@
   <v-layout row wrap justify-center align-center>
     <v-flex xs12 md7>
       <v-layout row wrap>
-        <div v-if="carts">
           <v-flex xs12 class="text-xs-center mb-4">
             <div class="headline font-weight-bold">Confirm your booking</div>
             <div class="grey--text">Confirm your booking.</div>
@@ -11,20 +10,10 @@
           <v-flex xs12>
             <v-card flat>
               <v-toolbar flat>
-                <v-toolbar-title class="title">My Rooms</v-toolbar-title>
+                <v-toolbar-title class="title">My Rooms ( {{ cart_counter }} )</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>1200 ( {{ cart_counter }} )</v-btn>
-                <v-badge left>
-      <template v-slot:badge>
-        <span>6</span>
-      </template>
-      <v-icon
-        large
-        color="grey lighten-1"
-      >
-        shopping_cart
-      </v-icon>
-    </v-badge>
+                <span class="body-2 mr-2">{{ total_amount }}</span>
+                INR
               </v-toolbar>
 
               <v-list two-line>
@@ -52,8 +41,6 @@
             </v-card>
           </v-flex>
 
-          <v-divider inset></v-divider>
-
           <v-flex xs12>
             <v-sheet class="d-flex" height="150">
               <v-layout justify-center align-center row fill-height>
@@ -61,7 +48,7 @@
                   <v-card flat>
                     <v-card-text>Do you want more room? click on Add Now button, we will assit you to choose best room for you.</v-card-text>
                     <v-card-footer>
-                      <v-btn large depressed color="default" class="text-capitalize">Add Now</v-btn>
+                      <v-btn large depressed color="default" class="text-capitalize" nuxt to="rooms">Add Now</v-btn>
                     </v-card-footer>
                   </v-card>
                 </v-flex>
@@ -69,9 +56,8 @@
             </v-sheet>
           </v-flex>
 
-          <v-divider inset></v-divider>
-
-          <v-flex xs12>
+          <v-flex xs12 v-if="cart_counter > 0">
+            <v-divider inset></v-divider>
             <v-card flat>
               <v-toolbar flat dense>
                 <v-toolbar-title class="title">Guest Information</v-toolbar-title>
@@ -113,15 +99,7 @@
                         required
                       ></v-text-field>
                     </v-flex>
-<template v-slot:badge>
-        <span>6</span>
-      </template>
-      <v-icon
-        large
-        color="grey lighten-1"
-      >
-        shopping_cart
-      </v-icon>
+
                     <v-flex xs12 md6>
                       <v-text-field
                         v-model="cart.phone"
@@ -159,12 +137,7 @@
               </v-form>
             </v-card>
           </v-flex>
-        </div>
 
-        <v-flex xs12 class="text-xs-center mb-4" v-else>
-          <div class="headline font-weight-bold grey--text">Sorry!</div>
-          <div class="grey--text">You did not add any room.</div>
-        </v-flex>
       </v-layout>
     </v-flex>
   </v-layout>
@@ -215,7 +188,17 @@ export default {
     ...mapGetters({
       carts: "cart/carts",
       cart_counter: "cart/cart_counter"
-    })
+    }),
+
+    total_amount() {
+      var total = 0;
+
+      this.carts.forEach(row => {
+        total = Number(total) + Number(row.room_tariff);
+      });
+
+      return total;
+    }
   },
   methods: {
     addToCart() {
@@ -227,19 +210,22 @@ export default {
     },
 
     confirm_booking() {
-      //(this.dialog = true),
+      this.dialog = true,
       this.cart.carts = this.carts;
       this.$validator.validateAll().then(result => {
         if (result) {
-          this.$axios.post("/checkout", this.cart).then(response => {
-            console.log(response.data);
+          this.$axios.post("/checkout/instamojo", this.cart).then(response => {
+          
+            if(response.data.error){
+              alert("Something went wrong in Payment!")
+            }
 
-            //respose data has the TXT//
-            let r = response.data;
+            
+            window.location.replace(response.data.longurl)
+            
+           
+            
 
-            this.$axios.post("/checkout/instamojo", response.data).then(pay => {
-              console.log(pay.data);
-            });
           });
         } else {
           this.dialog = false;

@@ -4,7 +4,7 @@
       <v-icon size="35" color="red">brightness_high</v-icon>
     </v-toolbar-side-icon>
 
-    <v-img src="logo.png" max-width="300"></v-img>
+    <v-img src="/logo.png" max-width="300"></v-img>
 
     <v-spacer/>
     <v-toolbar-items class="hidden-sm-and-down">
@@ -12,19 +12,36 @@
       <v-btn flat nuxt to="rooms">Book Room</v-btn>
       
 
-      <v-btn flat nuxt to="checkout">Checkout</v-btn>
       <v-btn flat>Contact</v-btn>
-
-      <v-btn flat>
-        <v-badge>
-          <template v-slot:badge>
-            <span>2</span>
-          </template>
-        </v-badge>MyRoom
-      </v-btn>
 
      
     </v-toolbar-items>
+
+    <nuxt-link to="checkout" v-if="cart_counter > 0">
+    <v-badge right overlap>
+      <template v-slot:badge>
+        <span class="body-2">{{ cart_counter }}</span>
+      </template>
+      <v-icon
+        
+        color="grey lighten-1"
+      >
+        shopping_cart
+      </v-icon>
+    </v-badge>
+    </nuxt-link>
   </v-toolbar>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters({
+      cart_counter: "cart/cart_counter"
+    })
+  },
+}
+</script>
+
 

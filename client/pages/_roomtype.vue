@@ -4,14 +4,10 @@
       <v-layout row wrap>
         <v-flex xs12 class="text-xs-center mb-4">
           <div class="headline font-weight-bold">{{ room.title }}</div>
-          <div
-            class="grey--text"
-          >{{ room.meta_description }}</div>
+          <div class="grey--text">{{ room.meta_description }}</div>
         </v-flex>
-<span></span>
-<div>
-  {{ this.no_of_days }}
-</div>
+        <span></span>
+        <div>{{ this.no_of_days }}</div>
         <v-flex xs12>
           <v-card flat>
             <v-layout row wrap>
@@ -23,9 +19,7 @@
                   <v-card-title primary-title>
                     <div>
                       <h2 class="title mb-3">{{ room.title }}</h2>
-                      <div
-                        class="grey--text"
-                      >{{ room.description }}</div>
+                      <div class="grey--text">{{ room.description }}</div>
                     </div>
                   </v-card-title>
 
@@ -87,7 +81,7 @@
                   </v-card-text>
                 </v-card>
               </v-flex>
-              <v-flex xs12 md4>
+              <v-flex xs12 md4 class="fixed">
                 <v-toolbar flat>
                   <v-toolbar-title>{{ room.title }}</v-toolbar-title>
                   <v-spacer></v-spacer>
@@ -136,7 +130,6 @@
                                 color="primary"
                                 @click="$refs.from_date_menu.save(from_date)"
                               >OK</v-btn>
-
                             </v-date-picker>
                           </v-menu>
                         </v-flex>
@@ -163,8 +156,7 @@
                                 v-on="on"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="to_date" no-title scrollable
-                            >
+                            <v-date-picker v-model="to_date" no-title scrollable>
                               <v-spacer></v-spacer>
                               <v-btn flat color="primary" @click="to_date_menu = false">Cancel</v-btn>
                               <v-btn
@@ -186,20 +178,26 @@
                           ></v-select>
                         </v-flex>
 
-                        <v-flex>
-                          {{ this.$moment(this.to_date).diff(this.$moment(this.from_date), 'days') }} Days
-                        </v-flex>
+                        <v-flex>{{ this.$moment(this.to_date).diff(this.$moment(this.from_date), 'days') }} Days</v-flex>
 
                         <v-flex xs12>
-                          <v-btn :disabled="btnDisable" depressed large  block @click="checkAvailibility()" >Check availibility</v-btn>
+                          <v-btn
+                            :disabled="btnDisable"
+                            depressed
+                            large
+                            block
+                            @click="checkAvailibility()"
+                          >Check availibility</v-btn>
                         </v-flex>
 
                         <v-flex xs12 v-if="message">
                           <v-alert :type="this.message_type" :value="true">
-                            <strong class="title"></strong>{{ message }}
+                            <strong class="title"></strong>
+                            {{ message }}
                           </v-alert>
 
-                          <v-btn v-if="this.available"
+                          <v-btn
+                            v-if="this.available"
                             large
                             color="red"
                             dark
@@ -217,18 +215,6 @@
           </v-card>
         </v-flex>
       </v-layout>
-
-      <section>
-        <v-layout row wrap justify-center align-center>
-          <v-flex xs12 md10 class="text-xs-center mb-4">
-            <div class="headline font-weight-bold">About Us</div>
-            <blockquote
-              class="blockquote"
-            >Towering into the blue skies , against the enormous mountain ranges ,the massive Buddha statue spreads wonderful serenity on the ambience around it. The mighty kanchanjunga rises behind the statue playing hide and seek with the clouds . The park is enormous.</blockquote>
-            <v-btn large color="green" dark depressed class="mt-3">Read more..</v-btn>
-          </v-flex>
-        </v-layout>
-      </section>
     </v-flex>
   </v-layout>
 </template>
@@ -251,7 +237,7 @@ export default {
       message: null,
       available: null,
       message_type: null,
-           
+
       cart: {
         room_type: null,
         room_title: null,
@@ -280,48 +266,36 @@ export default {
 
       //to_date: new Date().toISOString().substr(0, 10),
       to_date: new Date().toISOString().substr(0, 10),
-      
-      to_date_menu: false,
-      
+
+      to_date_menu: false
     };
   },
 
   methods: {
-
-    selectRoom(){
-
-      this.btnDisable = false
-      this.message = null,
-      this.available = null
-
+    selectRoom() {
+      this.btnDisable = false;
+      (this.message = null), (this.available = null);
     },
-    checkAvailibility(){
+    checkAvailibility() {
+      let checkData = new FormData();
+      checkData.append("type", this.room.id);
+      checkData.append("from_date", this.from_date);
+      checkData.append("to_date", this.to_date);
+      checkData.append("no_room", this.no_room);
 
-        let checkData = new FormData();
-        checkData.append("type", this.room.id);
-        checkData.append("from_date", this.from_date);
-        checkData.append("to_date", this.to_date);
-        checkData.append("no_room", this.no_room);
+      this.$axios.post("/checkavailibulity", checkData).then(response => {
+        if (response.data == "yes") {
+          this.available = true;
+          this.message_type = "info";
+          this.message = "Rooms are Available in the date range";
 
-         this.$axios
-            .post('/checkavailibulity', checkData)
-            .then(response => {
-
-                if(response.data == 'yes'){
-
-                this.available = true;
-                this.message_type = 'info'    
-                this.message = 'Rooms are Available in the date range'
-               
-                this.btnDisable = true;
-                }else{
-
-                this.message_type = 'error'    
-                this.message = 'No Rooms are Available in the date range'
-                this.btnDisable = false;
-                
-                }
-            })
+          this.btnDisable = true;
+        } else {
+          this.message_type = "error";
+          this.message = "No Rooms are Available in the date range";
+          this.btnDisable = false;
+        }
+      });
     },
     addToCart() {
       this.cart.room_type = this.room.id;
@@ -331,11 +305,14 @@ export default {
       this.cart.to_date = this.to_date;
       this.cart.no_of_rooms = this.no_room;
 
-      this.cart.no_of_days = this.$moment(this.to_date).diff(this.$moment(this.from_date), 'days')
-      
+      this.cart.no_of_days = this.$moment(this.to_date).diff(
+        this.$moment(this.from_date),
+        "days"
+      );
+
       this.$store.dispatch("cart/addToCart", this.cart);
 
-      this.$router.push("checkout")
+      this.$router.push("checkout");
     },
     validateDate() {
       if (this.to_date)

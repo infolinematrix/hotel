@@ -10,13 +10,23 @@ namespace Extension\Site\Http;
 
 
 use Illuminate\Http\Request;
-use Instamojo\Instamojo;
 use ReactorCMS\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\DB;
 use Extension\Site\Entities\Transactions;
+use Instamojo\Instamojo;
+use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends PublicController
 {
+    public $mode = 'LIVE';
+
+    //public $api = 'test_4fc28ab0f0ab8045f72ad419087';
+    //public $auth_tocken = 'test_4356f3381134caf99f7976f178f';
+
+    public $api = 'test_4fc28ab0f0ab8045f72ad419087';
+    public $auth_token = 'test_4356f3381134caf99f7976f178f';
+    public $endpoint = 'https://test.instamojo.com/api/1.1/';
+
     
    /* 
     public function AuthPayment(Request $request){
@@ -67,39 +77,11 @@ class PaymentController extends PublicController
 */
     public function handleProviderCallback($provider, Request $request)
     {
-        //return ($request);
-        //$req = $request->all();
-        $r = $this->provider($request, $provider);
-
-        return $r;
-
-    }
-    
-    
-    public $APIKEY, $TOCKEN, $ENDPOINT;
-    public $mode = 'LIVE';
-
-    //public $api = 'test_4fc28ab0f0ab8045f72ad419087';
-    //public $auth_tocken = 'test_4356f3381134caf99f7976f178f';
-
-    public $api = 'test_4fc28ab0f0ab8045f72ad419087';
-    public $auth_tocken = 'test_4356f3381134caf99f7976f178f';
-
-    public $endpoint = 'https://test.instamojo.com/api/1.1/';
-
-
-
-
-    public function provider(Request $request, $provider){
-
-       //return $request;
-
         $api = new Instamojo(
             $this->api,
-            $this->auth_tocken,
+            $this->auth_token,
             $this->endpoint
         );
-        return $api;
 
         try {
             $response = $api->paymentRequestCreate(array(
@@ -111,15 +93,60 @@ class PaymentController extends PublicController
                 'email' => 'subha@gmail.com', //$request->email,
                 'phone' => '9832893116',
                 'allow_repeated_payments' => false,
-                "redirect_url" => "http://www.google.com"
+                "redirect_url" => route('checkout.redirect', $provider)
             ));
-            //dd($response);
+            
             return $response;
         }
         catch (Exception $e) {
-            return 'Error: ' . $e->getMessage();
+            return ['error' =>  $e->getMessage()];
         }
 
-        return "NONE OF ABOVE";
     }
+    
+    
+    public function handleProviderRedirect($provider, Request $request)
+    {
+        # code...
+        #"payment_id":"MOJO9618D05A60773321","payment_status":"Credit","payment_request_id":"08bf3b320ae34ce78b4c65887eea4c30"
+
+        if($request && $request->payment_status == "Credit"){
+            
+            $txn = Transactions::insert([
+                'purpose' => 'Delux Room',
+                'node_id' => 112,
+                'provider' => $provider,
+                'txn_id' => $request->payment_id,
+                'payment_request_id' => $request->payment_request_id,
+                'amount' => 1250,
+                'payer_first_name' => 'Subha Sundar',
+                'payer_last_name' => 'Das',
+                'payer_email' => 'subha@gmail.com',
+                'payer_contact' => '9832893116'
+            ]);
+            
+            $url = "http://localhost:3000/payment/".$request->payment_request_id;
+            return Redirect::away($url);
+            
+        }
+        
+        $url = "http://localhost:3000/payment/failed";
+        return Redirect::away($url);
+    }
+
+
+    public function getTransaction($transaction)
+    {
+        # code...
+        //    dd($transaction);
+        $txn = Transactions::where('payment_request_id', trim($transaction))->first();
+        if($txn){
+            return $txn;
+        }else{
+            return false;
+        }    
+    }
+
+    
+
 }

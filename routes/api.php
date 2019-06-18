@@ -76,5 +76,6 @@ Route::group(['middleware' => ['api','track'], 'namespace' => 'Extension\Site\Ht
     Route::post('checkout','RoomTypeController@checkOut');
 
     Route::post('checkout/{provider}', 'PaymentController@handleProviderCallback');
-    Route::get('checkout/authorised/{provider}', 'PaymentController@handleProviderCallback');
+    Route::get('checkout/redirect/{provider}', 'PaymentController@handleProviderRedirect')->name('checkout.redirect');
+    Route::get('checkout/transaction/{txn}', 'PaymentController@getTransaction')->name('checkout.transaction');
 });
