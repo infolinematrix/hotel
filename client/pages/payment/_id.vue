@@ -56,7 +56,7 @@ export default {
     
     this.$axios.get("/checkout/transaction/" + this.$route.params.id).then(txn => {
       //alert(txn.data.txn_id);
-      this.txn.id = txn.data.id, 
+      this.txn.id = txn.data.booking_id, 
       this.txn.request_id = txn.data.payment_request_id, 
       this.txn.payment_id = txn.data.txn_id
     });

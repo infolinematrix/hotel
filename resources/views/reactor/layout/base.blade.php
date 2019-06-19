@@ -21,6 +21,7 @@
     {!! Html::style('assets/reactor/css/tags.css') !!}
     {!! Html::style('assets/reactor/css/search_parent.css') !!}
     {!! Html::style('assets/reactor/css/backend-custom.css') !!}
+    {!! Html::style('assets/plugin/datepicker/datepicker3.css') !!}
 
     @yield('styles')
 
@@ -58,6 +59,7 @@
 {!! Html::script('assets/reactor/js/adminlte.js') !!}
 {!! Html::script('assets/plugins/slimScroll/jquery.slimscroll.min.js') !!}
 {!! Html::script('assets/plugins/dropzone/jquery.ezdz.js') !!}
+{!! Html::script('assets/plugins/datepicker/bootstrap-datepicker.js') !!}
 
 
 
