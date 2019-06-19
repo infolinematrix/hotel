@@ -9,13 +9,16 @@
 namespace Extension\Site\Http;
 
 
+use Extension\Site\Entities\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use ReactorCMS\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\DB;
 use Extension\Site\Entities\Transactions;
 use Instamojo\Instamojo;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
 class PaymentController extends PublicController
 {
     public $mode = 'LIVE';
@@ -77,6 +80,33 @@ class PaymentController extends PublicController
 */
     public function handleProviderCallback($provider, Request $request)
     {
+
+
+        $carts = $request->carts;
+        $total_amount = 0;
+        $rand = rand(111111,99999);
+        foreach ($carts as $cart){
+            $data = [
+
+                'type' => $cart['room_type'],
+                'no_of_rooms' => $cart['no_of_rooms'],
+                'check_in' => $cart['from_date'],
+                'check_out' => $cart['to_date'],
+                'rate' => $cart['room_tariff'],
+                'total_amount' => ($cart['no_of_rooms'] * $cart['no_of_days'] * $cart['room_tariff']),
+                'first_name' => $request->firstname,
+                'last_name' => $request->lastname,
+                'email' => $request->email,
+                'phone' => $request->phone
+            ];
+
+            $booking = Booking::insertGetId($data);
+
+            Booking::where('id',$booking)->update(['booking_id' => $rand]);
+
+           $total_amount+=  ($cart['no_of_rooms'] * $cart['no_of_days'] * $cart['room_tariff']);
+
+        }
         $api = new Instamojo(
             $this->api,
             $this->auth_token,
@@ -84,14 +114,19 @@ class PaymentController extends PublicController
         );
 
         try {
+
+
+            $book = Booking::where('id',$booking)->first();
+
+
             $response = $api->paymentRequestCreate(array(
-                'purpose' => 'Promotion',
-                'amount' => 100, //$request->amount,
-                'buyer_name' => 'Subha Das', //$request->first_name.' '.$request->last_name,
+                'purpose' => 'NEW BOOKING #'.$book->booking_id,
+                'amount' => $total_amount, //$request->amount,
+                'buyer_name' => $request->firstname.' '.$request->lastname, //$request->first_name.' '.$request->last_name,
                 'send_email' => false,
                 'send_sms' => false,
-                'email' => 'subha@gmail.com', //$request->email,
-                'phone' => '9832893116',
+                'email' => $request->email, //$request->email,
+                'phone' => $request->phone,
                 'allow_repeated_payments' => false,
                 "redirect_url" => route('checkout.redirect', $provider)
             ));
@@ -107,30 +142,52 @@ class PaymentController extends PublicController
     
     public function handleProviderRedirect($provider, Request $request)
     {
-        # code...
-        #"payment_id":"MOJO9618D05A60773321","payment_status":"Credit","payment_request_id":"08bf3b320ae34ce78b4c65887eea4c30"
+
+
+        $api = new Instamojo($this->api, $this->auth_token, $this->endpoint);
+
+        $response = $api->paymentRequestStatus(trim($request->payment_request_id));
+
+
+        $booking_id = $response['purpose'];
+
+        strlen($booking_id);
+        $pos=strrpos($booking_id, '#');
+        $bookingid= substr($booking_id,$pos+1);
+
+
+        $booking = Booking::where('booking_id',$bookingid)->first();
+
 
         if($request && $request->payment_status == "Credit"){
+<<<<<<< HEAD
             
             Transactions::insert([
                 'purpose' => 'Delux Room',
                 'node_id' => 112,
+=======
+
+
+            Transactions::insert([
+                'purpose' => $response['purpose'],
+                'booking_id' => $booking->booking_id,
+>>>>>>> ddbcd328a4455452e7c2c783299af9a2ec457010
                 'provider' => $provider,
                 'txn_id' => $request->payment_id,
                 'payment_request_id' => $request->payment_request_id,
-                'amount' => 1250,
-                'payer_first_name' => 'Subha Sundar',
-                'payer_last_name' => 'Das',
-                'payer_email' => 'subha@gmail.com',
-                'payer_contact' => '9832893116'
+                'amount' => $response['amount'],
+                'payer_first_name' => $booking->first_name,
+                'payer_last_name' => $booking->last_name,
+                'payer_email' => $booking->email,
+                'payer_contact' => $booking->phone
             ]);
-            
-            $url = "http://localhost:3000/payment/".$request->payment_request_id;
+
+            $url = env('CLIENT_URL').'/payment/'.$request->payment_request_id;
             return Redirect::away($url);
-            
+
         }
-        
-        $url = "http://localhost:3000/payment/failed";
+
+        $url = env('CLIENT_URL')."/payment/failed";
         return Redirect::away($url);
     }
 

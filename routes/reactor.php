@@ -23,6 +23,7 @@ Route::group([
         require 'reactor/update.php';
         require 'reactor/users.php';
         require 'reactor/pages.php';
+        require 'reactor/blogs.php';
         require 'reactor/settings.php';
         require 'reactor/reviews.php';
     });

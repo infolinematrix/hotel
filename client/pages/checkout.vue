@@ -216,12 +216,14 @@ export default {
         if (result) {
           this.$axios.post("/checkout/instamojo", this.cart).then(response => {
           
+          
             if(response.data.error){
               alert("Something went wrong in Payment!")
             }
 
             
             window.location.replace(response.data.longurl)
+            
             
            
             

@@ -52,15 +52,41 @@
                     <i class="fa fa-bed"></i> <span>Room Management</span>
                 </a>
             </li>
-
-
-
-
         </ul>
+
+         <ul class="sidebar-menu" data-widget="tree">
+
+
+            <li class="">
+                <a href="{!! route('reactor.booking.index') !!}">
+                    <i class="fa fa-bed"></i> <span>Bookings</span>
+                </a>
+            </li>
+        </ul>
+
+
+        <ul class="sidebar-menu" data-widget="tree">
+
+
+            <li class="">
+                <a href="{!! route('reactor.transaction.index') !!}">
+                    <i class="fa fa-rupee"></i> <span>Transactions</span>
+                </a>
+            </li>
+        </ul>
+
 
         <hr class="divider">
 
-        
+
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="">
+                <a href="{!! route("reactor.blogs.index") !!}">
+                    <i class="fa fa-edit"></i> <span>Blogs</span>
+                </a>
+            </li>
+        </ul>
+
         <ul class="sidebar-menu" data-widget="tree">
             <li class="">
                 <a href="{!! route("reactor.pages.index") !!}">
@@ -68,6 +94,8 @@
                 </a>
             </li>
         </ul>
+
+
     
 
 <!--
