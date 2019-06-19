@@ -112,7 +112,7 @@ class PaymentController extends PublicController
 
         if($request && $request->payment_status == "Credit"){
             
-            $txn = Transactions::insert([
+            Transactions::insert([
                 'purpose' => 'Delux Room',
                 'node_id' => 112,
                 'provider' => $provider,

@@ -18,16 +18,15 @@
               </h3>
             </v-card-title>
             <v-card-text class="pt-0">
-              <div
-                class="grey--text"
-              >{{ node.description }}</div>
+              <div class="grey--text">{{ node.description }}</div>
             </v-card-text>
 
             <v-card-actions>
               <v-list-tile class="grow">
                 <v-list-tile-content>
                   <v-list-tile-title class="title red--text font-weight-bold">
-                    <span class="mr-1 title black--text">&#8377;</span>{{ node.price }}
+                    <span class="mr-1 title black--text">&#8377;</span>
+                    {{ node.price }}
                   </v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
@@ -45,28 +44,37 @@
         <v-layout row wrap justify-center align-center>
           <v-flex xs12 md10 class="text-xs-center mb-4">
             <div class="headline font-weight-bold">About Us</div>
-            <blockquote class="blockquote">Towering into the blue skies , against the enormous mountain ranges ,the massive Buddha statue spreads wonderful serenity on the ambience around it. The mighty kanchanjunga rises behind the statue playing hide and seek with the clouds . The park is enormous.</blockquote>
+            <blockquote
+              class="blockquote"
+            >Towering into the blue skies , against the enormous mountain ranges ,the massive Buddha statue spreads wonderful serenity on the ambience around it. The mighty kanchanjunga rises behind the statue playing hide and seek with the clouds . The park is enormous.</blockquote>
             <v-btn large color="red" dark depressed class="mt-3">Read more..</v-btn>
           </v-flex>
-
         </v-layout>
+      </section>
+
+      <section>
+        <blogs></blogs>
       </section>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-
+import Blogs from "~/components/Blogs.vue";
 export default {
-
   layout: "home",
- data() {
+
+   components: {
+    Blogs
+  },
+  data() {
     return {
-      nodes:[]
+      text: 'BCD',
+      nodes: []
     };
   },
 
-mounted() {
+  mounted() {
     this.$axios.get("roomtypes").then(response => {
       this.nodes = response.data;
     });

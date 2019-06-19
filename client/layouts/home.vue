@@ -1,7 +1,6 @@
 <template>
   <v-app>
-
-   <tool-bar></tool-bar>
+    <tool-bar></tool-bar>
 
     <template>
       <v-parallax src="image2.jpg" height="600" class="hidden-xs-only">
@@ -28,7 +27,6 @@
             </div>
           </div>
         </v-layout>
-
       </v-parallax>
     </template>
 
@@ -38,20 +36,26 @@
       </v-container>
     </v-content>
 
-    <v-footer app>
-      <span>&copy; 2019</span>
-    </v-footer>
+      
+
+      <v-footer class="footer bg-green">
+        <app-footer></app-footer>
+      </v-footer>
+
   </v-app>
 </template>
 
 <script>
-import ToolBar from "~/components/ToolBar.vue";
+import ToolBar from "~/components/ToolBar.vue"
+import AppFooter from "~/components/Footer.vue"
 export default {
-   components: {
-    ToolBar
+  components: {
+    ToolBar, 
+    AppFooter
   },
   data() {
     return {
+      text: 'BCD',
       items: [
         {
           icon: "apps",

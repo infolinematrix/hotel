@@ -65,15 +65,19 @@ Route::group(['middleware' => ['api','track'], 'namespace' => 'Extension\Site\Ht
     });
     
     //Pages
+    Route::get('pages','ApiController@getPages');
     Route::get('page/{slug}','ApiController@getPage');
 
+    //Settings
+    Route::get('settings','ApiController@getSettings');
+
+    //Room type
     Route::get('roomtypes','RoomTypeController@getRoomtype');
-
     Route::get('room/{slug}','RoomTypeController@index');
-
     Route::post('checkavailibulity','RoomTypeController@checkAvailibility');
 
-    Route::post('checkout','RoomTypeController@checkOut');
+
+    //Route::post('checkout','RoomTypeController@checkOut');
 
     Route::post('checkout/{provider}', 'PaymentController@handleProviderCallback');
     Route::get('checkout/redirect/{provider}', 'PaymentController@handleProviderRedirect')->name('checkout.redirect');

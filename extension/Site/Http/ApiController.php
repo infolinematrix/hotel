@@ -2,17 +2,13 @@
 
 namespace Extension\Site\Http;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\URL;
-
-use ReactorCMS\Entities\Node;
 use ReactorCMS\Http\Controllers\PublicController;
 use ReactorCMS\Http\Controllers\Traits\UsesNodeForms;
 use ReactorCMS\Http\Controllers\Traits\UsesNodeHelpers;
 use ReactorCMS\Http\Controllers\Traits\UsesTranslations;
+use Reactor\Hierarchy\Node;
 use Reactor\Hierarchy\NodeRepository;
-use Reactor\Hierarchy\Tags\Tag;
+use ReactorCMS\Entities\Settings;
 
 class ApiController extends PublicController
 {
@@ -41,53 +37,41 @@ class ApiController extends PublicController
         return $data;
     }
 
-    /**
-     * Shows the search page
-     *
-     * @param string $search
-     * @param NodeRepository $nodeRepository
-     * @param Request $request
-     * @return View
-     */
-    public function getSearch($search, NodeRepository $nodeRepository, Request $request)
+    public function getPages()
     {
-        set_app_locale_with('search', $search);
-        $results = $nodeRepository->searchNodes($request->input('q'));
-
-        return view('search', compact('results'));
-    }
-
-
-
-    public function getBanner($homepage = false, $limit = 2)
-    {
-
-        if ($homepage == true) {
-
-            $node = Node::WhereExtensionAttribute('banner', 'show_home', 1);
-        } else {
-
-            $node = Node::WhereExtensionAttribute('banner', 'show_home', 0);
-        }
-        $nodes = $node->take($limit)->get();
-
+        # code...
         $data = [];
-        if (count($nodes) > 0) {
+        $nodes = Node::withType('pages')->published()->translatedIn(locale())->get();
 
-            foreach ($nodes as $node) {
-                $data[] = [
-
-                    'title' => $node->getTitle(),
-                    'link' => $node->web_link,
-                    'path' => asset('/uploads/' . $node->getImages()->first()->path),
-                ];
-            }
+        foreach ($nodes as $node) {
+            $data[] = [
+                'id' => $node->getKey(),
+                'title' => $node->getTitle(),
+                'content' => $node->content,
+                'meta_title' => $node->getMetaTitle(),
+                'meta_description' => $node->getMetaDescription(),
+                'meta_keywords' => $node->getMetaKeywords(),
+            ];
         }
 
         return $data;
-
     }
 
-   
+    /**
+     * get Web Settings
+     */
+    public function getSettings(){
 
+        $data =[];
+        $settings = Settings::all();
+
+        foreach($settings as $setting){
+            $data[] = [
+                'variable' => $setting->variable, 
+                'value' => $setting->value, 
+            ];
+        }
+        
+        return $data;
+    }
 }
