@@ -93,7 +93,7 @@ class PaymentController extends PublicController
                 'check_in' => $cart['from_date'],
                 'check_out' => $cart['to_date'],
                 'rate' => $cart['room_tariff'],
-                'total_amount' => ($cart['no_of_rooms'] * $cart['no_of_days'] * $cart['room_tariff']),
+                'total_amount' => ($cart['no_of_rooms']  $cart['no_of_days']  $cart['room_tariff']),
                 'first_name' => $request->firstname,
                 'last_name' => $request->lastname,
                 'email' => $request->email,
@@ -104,7 +104,7 @@ class PaymentController extends PublicController
 
             Booking::where('id',$booking)->update(['booking_id' => $rand]);
 
-           $total_amount+=  ($cart['no_of_rooms'] * $cart['no_of_days'] * $cart['room_tariff']);
+           $total_amount+=  ($cart['no_of_rooms']  $cart['no_of_days']  $cart['room_tariff']);
 
         }
         $api = new Instamojo(
@@ -160,18 +160,11 @@ class PaymentController extends PublicController
 
 
         if($request && $request->payment_status == "Credit"){
-<<<<<<< HEAD
-            
-            Transactions::insert([
-                'purpose' => 'Delux Room',
-                'node_id' => 112,
-=======
 
 
             Transactions::insert([
                 'purpose' => $response['purpose'],
                 'booking_id' => $booking->booking_id,
->>>>>>> ddbcd328a4455452e7c2c783299af9a2ec457010
                 'provider' => $provider,
                 'txn_id' => $request->payment_id,
                 'payment_request_id' => $request->payment_request_id,
