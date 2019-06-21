@@ -68,6 +68,14 @@ Route::group(['middleware' => ['api','track'], 'namespace' => 'Extension\Site\Ht
     Route::get('pages','ApiController@getPages');
     Route::get('page/{slug}','ApiController@getPage');
 
+    //Blogs
+
+    Route::get('blogs','ApiController@getBlogs');
+    Route::get('blog/{slug}','ApiController@getBlog');
+
+    // Contact
+    Route::post('contact','ApiController@contact');
+
     //Settings
     Route::get('settings','ApiController@getSettings');
 

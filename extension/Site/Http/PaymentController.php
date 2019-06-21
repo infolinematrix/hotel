@@ -30,54 +30,54 @@ class PaymentController extends PublicController
     public $auth_token = 'test_4356f3381134caf99f7976f178f';
     public $endpoint = 'https://test.instamojo.com/api/1.1/';
 
-    
-   /* 
-    public function AuthPayment(Request $request){
 
-        $txn = new Transactions();
-        $txn->provider = 'paypal';
-        $txn->node_id = $request->node_id;
-        $txn->txn_id = $request->txn_id;
-        $txn->amount = $request->total;
+    /*
+     public function AuthPayment(Request $request){
 
-        $txn->save();
-        
+         $txn = new Transactions();
+         $txn->provider = 'paypal';
+         $txn->node_id = $request->node_id;
+         $txn->txn_id = $request->txn_id;
+         $txn->amount = $request->total;
 
-        $promo = new Promotions();
-        $promo->node_id = $request->node_id;
-        $promo->txn_id = $request->txn_id;
-        $promo->cpc = $request->cpc;
-        $promo->max_clicks = $request->clicks;
-        $promo->save();
+         $txn->save();
 
-        return $request->txn_id;
-    }
 
-    public function checkout($provider, Request $request){
+         $promo = new Promotions();
+         $promo->node_id = $request->node_id;
+         $promo->txn_id = $request->txn_id;
+         $promo->cpc = $request->cpc;
+         $promo->max_clicks = $request->clicks;
+         $promo->save();
 
-        $gateway = Omnipay::create('PayPal_Express');
-        $gateway->setUsername(config('services.paypal.username'));
-        $gateway->setPassword(config('services.paypal.password'));
-        $gateway->setSignature(config('services.paypal.signature'));
-        $gateway->setTestMode(config('services.paypal.sandbox'));
-        //$gateway->setReturnUrl('http://localhost:8000/api/checkout/authorised/PayPal_Express');
-        
-        
-        $response = $gateway->purchase(array(
-            'amount' => '10.00', 
-            'currency' => 'USD', 
-            'cancelUrl' => 'https://www.example.com/cancel', 
-            'returnUrl' => 'http://localhost:8000/api/checkout/authorised/PayPal_Express',
-            //'returnUrl' => 'https://www.example.com/cancel',
-            ))->send();
+         return $request->txn_id;
+     }
 
-            //$url = $response;
-            //dd($url);
+     public function checkout($provider, Request $request){
 
-        return $response;
+         $gateway = Omnipay::create('PayPal_Express');
+         $gateway->setUsername(config('services.paypal.username'));
+         $gateway->setPassword(config('services.paypal.password'));
+         $gateway->setSignature(config('services.paypal.signature'));
+         $gateway->setTestMode(config('services.paypal.sandbox'));
+         //$gateway->setReturnUrl('http://localhost:8000/api/checkout/authorised/PayPal_Express');
 
-    }
-*/
+
+         $response = $gateway->purchase(array(
+             'amount' => '10.00',
+             'currency' => 'USD',
+             'cancelUrl' => 'https://www.example.com/cancel',
+             'returnUrl' => 'http://localhost:8000/api/checkout/authorised/PayPal_Express',
+             //'returnUrl' => 'https://www.example.com/cancel',
+             ))->send();
+
+             //$url = $response;
+             //dd($url);
+
+         return $response;
+
+     }
+ */
     public function handleProviderCallback($provider, Request $request)
     {
 
@@ -93,7 +93,7 @@ class PaymentController extends PublicController
                 'check_in' => $cart['from_date'],
                 'check_out' => $cart['to_date'],
                 'rate' => $cart['room_tariff'],
-                'total_amount' => ($cart['no_of_rooms']  $cart['no_of_days']  $cart['room_tariff']),
+                'total_amount' => ($cart['no_of_rooms'] * $cart['no_of_days'] * $cart['room_tariff']),
                 'first_name' => $request->firstname,
                 'last_name' => $request->lastname,
                 'email' => $request->email,
@@ -102,9 +102,9 @@ class PaymentController extends PublicController
 
             $booking = Booking::insertGetId($data);
 
-            Booking::where('id',$booking)->update(['booking_id' => $rand]);
+            Booking::where('id',$booking)->update(['booking_id' => $request->phone.$rand]);
 
-           $total_amount+=  ($cart['no_of_rooms']  $cart['no_of_days']  $cart['room_tariff']);
+            $total_amount+=  ($cart['no_of_rooms'] * $cart['no_of_days'] * $cart['room_tariff']);
 
         }
         $api = new Instamojo(
@@ -130,7 +130,7 @@ class PaymentController extends PublicController
                 'allow_repeated_payments' => false,
                 "redirect_url" => route('checkout.redirect', $provider)
             ));
-            
+
             return $response;
         }
         catch (Exception $e) {
@@ -138,8 +138,8 @@ class PaymentController extends PublicController
         }
 
     }
-    
-    
+
+
     public function handleProviderRedirect($provider, Request $request)
     {
 
@@ -180,6 +180,9 @@ class PaymentController extends PublicController
 
         }
 
+
+        //100463762879
+
         $url = env('CLIENT_URL')."/payment/failed";
         return Redirect::away($url);
     }
@@ -194,9 +197,9 @@ class PaymentController extends PublicController
             return $txn;
         }else{
             return false;
-        }    
+        }
     }
 
-    
+
 
 }

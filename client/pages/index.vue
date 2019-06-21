@@ -14,7 +14,7 @@
             <v-img src="room1.jpg" aspect-ratio="1.75"></v-img>
             <v-card-title primary-title>
               <h3 class="pa-0">
-                <nuxt-link to="#" class="title">{{ node.title }}</nuxt-link>
+                <nuxt-link :to="node.slug" class="title">{{ node.title }}</nuxt-link>
               </h3>
             </v-card-title>
             <v-card-text class="pt-0">

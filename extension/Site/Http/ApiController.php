@@ -2,6 +2,8 @@
 
 namespace Extension\Site\Http;
 
+use Illuminate\Http\Request;
+use ReactorCMS\Entities\Contacts;
 use ReactorCMS\Http\Controllers\PublicController;
 use ReactorCMS\Http\Controllers\Traits\UsesNodeForms;
 use ReactorCMS\Http\Controllers\Traits\UsesNodeHelpers;
@@ -9,7 +11,8 @@ use ReactorCMS\Http\Controllers\Traits\UsesTranslations;
 use Reactor\Hierarchy\Node;
 use Reactor\Hierarchy\NodeRepository;
 use ReactorCMS\Entities\Settings;
-
+use Mail;
+use Illuminate\Support\Facades\Config;
 class ApiController extends PublicController
 {
 
@@ -73,5 +76,81 @@ class ApiController extends PublicController
         }
         
         return $data;
+    }
+
+    public function getBlogs(){
+
+        $data = [];
+        $nodes = Node::withType('blog')->published()->translatedIn(locale())->get();
+
+        foreach ($nodes as $node){
+
+            $img = $node->getImages()->first();
+            $data[] = [
+
+                'id' => $node->getKey(),
+                'title' => $node->getTitle(),
+                'slug' => $node->getName(),
+                'image' => asset('uploads/'.$img->path),
+                'description' => str_limit($node->content,100),
+            ];
+
+        }
+
+        return $data;
+
+    }
+
+    public function getBlog(NodeRepository $nodeRepository, $name){
+        $node = $nodeRepository->getNodeAndSetLocale($name, true, false);
+
+       $img = $node->getImages()->first();
+
+
+        $data['node'] = [
+            'id' => $node->getKey(),
+            'title' => $node->getTitle(),
+            'description' => $node->content,
+            'image' => asset('uploads/'.$img->path)
+        ];
+
+        return $data;
+
+    }
+
+    public function contact(Request $request){
+
+        $data = [
+
+            'first_name' => $request->firstname,
+            'last_name' =>  $request->lastname,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'content' => $request->message
+        ];
+
+        Contacts::insert($data);
+
+
+        $data = [
+            'name' => $request->firstname.' '.$request->lastname,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'content' => $request->message
+
+        ];
+
+        /*Get Mail Configuration*/
+
+        Config::set('mail', getMailconfig());
+
+        Mail::send('mail.contact', $data, function ($message) use ($data) {
+            $message->from(getSettings('email_from_email'), getSettings('site_title'));
+            $message->subject('Contact Us - '.getSettings('site_title'));
+            $message->to(getSettings('email_from_email'));
+        });
+        
+        return 'Send';
+
     }
 }
