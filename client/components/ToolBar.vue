@@ -12,7 +12,7 @@
       <v-btn flat nuxt to="rooms">Book Room</v-btn>
       
 
-      <v-btn flat nuxt to="contact">Contact</v-btn>
+      <v-btn flat nuxt to="/contact">Contact</v-btn>
 
      
     </v-toolbar-items>

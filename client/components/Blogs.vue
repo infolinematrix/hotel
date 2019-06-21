@@ -11,12 +11,12 @@
                     </v-flex>
                     <v-flex xs7>
                       <v-card-title>
-                        <div>
+                       
                           <div class="font-weight-medium" >
-                            <nuxt-link :to="{path: '/blog/' + blog.slug}" class="title">{{ blog.title }}</nuxt-link>
+                            <nuxt-link :to="{path: '/blog/' + blog.slug}" class="">{{ blog.title }}</nuxt-link>
                             </div>
-                          <div class="text-muted">{{ blog.description }}</div>
-                        </div>
+                          <div class="text-muted font-weight-thin">{{ blog.description }}</div>
+                       
                       </v-card-title>
                     </v-flex>
                   </v-layout>

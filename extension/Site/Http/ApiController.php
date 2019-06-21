@@ -79,10 +79,8 @@ class ApiController extends PublicController
     }
 
     public function getBlogs(){
-
         $data = [];
         $nodes = Node::withType('blog')->published()->translatedIn(locale())->get();
-
         foreach ($nodes as $node){
 
             $img = $node->getImages()->first();
@@ -92,7 +90,7 @@ class ApiController extends PublicController
                 'title' => $node->getTitle(),
                 'slug' => $node->getName(),
                 'image' => asset('uploads/'.$img->path),
-                'description' => str_limit($node->content,100),
+                'description' => strip_tags(str_limit($node->content,100)),
             ];
 
         }

@@ -5,9 +5,9 @@
         <v-flex xs12 class="text-xs-center mb-4">
           <div class="headline font-weight-bold">{{ blog.title }}</div>
         </v-flex>
-           <blockquote class="blockquote">
-            {{ blog.description }}
-            </blockquote>
+           <div v-html="blog.description">
+           </div>
+
       </v-layout>
     </v-flex>
   </v-layout>
