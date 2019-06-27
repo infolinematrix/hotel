@@ -9,9 +9,10 @@
          <v-flex xs12 class="text-xs-center">
           <v-img :src="blog.image"></v-img>
          </v-flex>
-
+          <v-card-text>
            <div v-html="blog.description">
            </div>
+          </v-card-text>
 
       </v-layout>
     </v-flex>
