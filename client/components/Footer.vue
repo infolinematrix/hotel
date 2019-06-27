@@ -6,7 +6,7 @@
         <div class="grey--text mt-2">{{ getSetting('address')}}</div>
         <v-layout row wrap class="mt-3">
           <v-flex class="pb-0 pt-0" v-for="page in this.pages" :key="page.id">
-            <nuxt-link to="page#">{{ page.title}}</nuxt-link>
+            <nuxt-link :to="{path: '/page/' + page.slug}">{{ page.title}}</nuxt-link>
           </v-flex>
         </v-layout>
       </v-flex>

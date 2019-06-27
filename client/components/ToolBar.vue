@@ -9,12 +9,8 @@
     <v-spacer/>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat nuxt to="/">Home</v-btn>
-      <v-btn flat nuxt to="rooms">Book Room</v-btn>
-      
-
+      <v-btn flat nuxt to="/rooms">Book Room</v-btn>
       <v-btn flat nuxt to="/contact">Contact</v-btn>
-
-     
     </v-toolbar-items>
 
     <nuxt-link to="checkout" v-if="cart_counter > 0">

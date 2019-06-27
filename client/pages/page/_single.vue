@@ -3,14 +3,9 @@
     <v-flex xs12 md7>
       <v-layout row wrap>
         <v-flex xs12 class="text-xs-center mb-4">
-          <div class="headline font-weight-bold">{{ blog.title }}</div>
+          <div class="headline font-weight-bold">{{ page.title }}</div>
         </v-flex>
-        <span></span>
-         <v-flex xs12 class="text-xs-center">
-          <v-img :src="blog.image"></v-img>
-         </v-flex>
-
-           <div v-html="blog.description">
+           <div v-html="page.content">
            </div>
 
       </v-layout>
@@ -23,9 +18,9 @@
 export default {
   components: {},
 async asyncData({ params, $axios }) {
-    return await $axios.get(`blog/${params.single}`).then(res => {
+    return await $axios.get(`page/${params.single}`).then(res => {
       return {
-        blog: res.data.node
+        page: res.data
       };
     });
   },

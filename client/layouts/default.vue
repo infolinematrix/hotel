@@ -8,18 +8,20 @@
       </v-container>
     </v-content>
 
-    <v-footer app>
-      <span>&copy; 2019</span>
-    </v-footer>
+     <v-footer class="footer bg-green">
+        <app-footer></app-footer>
+      </v-footer>
   </v-app>
 </template>
 
 <script>
 import ToolBar from "~/components/ToolBar.vue";
+import AppFooter from "~/components/Footer.vue"
 
 export default {
   components: {
-    ToolBar
+    ToolBar,
+    AppFooter
   },
 
   data() {

@@ -50,6 +50,7 @@ class ApiController extends PublicController
             $data[] = [
                 'id' => $node->getKey(),
                 'title' => $node->getTitle(),
+                'slug' => $node->getName(),
                 'content' => $node->content,
                 'meta_title' => $node->getMetaTitle(),
                 'meta_description' => $node->getMetaDescription(),

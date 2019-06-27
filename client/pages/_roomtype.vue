@@ -14,7 +14,7 @@
               <v-flex xs12 md8>
                 <v-card>
                   <v-carousel hide-delimiters height="400">
-                    <v-carousel-item v-for="(item,i) in items" :key="i" :src="item.src"></v-carousel-item>
+                    <v-carousel-item v-for="(item,i) in items" :key="i" :src="item"></v-carousel-item>
                   </v-carousel>
                   <v-card-title primary-title>
                     <div>
@@ -122,7 +122,9 @@
                                 v-on="on"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="from_date" no-title scrollable>
+                            <v-date-picker v-model="from_date" no-title scrollable
+                            :min="this.from_date"
+                            >
                               <v-spacer></v-spacer>
                               <v-btn flat color="primary" @click="from_date_menu = false">Cancel</v-btn>
                               <v-btn
@@ -156,7 +158,9 @@
                                 v-on="on"
                               ></v-text-field>
                             </template>
-                            <v-date-picker v-model="to_date" no-title scrollable>
+                            <v-date-picker v-model="to_date" no-title scrollable
+                            :min="this.from_date"
+                            >
                               <v-spacer></v-spacer>
                               <v-btn flat color="primary" @click="to_date_menu = false">Cancel</v-btn>
                               <v-btn
@@ -216,16 +220,21 @@
         </v-flex>
       </v-layout>
     </v-flex>
+     <v-footer class="footer bg-green">
+        <app-footer></app-footer>
+      </v-footer>
   </v-layout>
 </template>
 
 <script>
+
 export default {
   components: {},
   async asyncData({ params, $axios }) {
     return await $axios.get(`room/${params.roomtype}`).then(res => {
       return {
-        room: res.data.node
+        room: res.data.node,
+        items: res.data.node.images
       };
     });
   },
@@ -272,6 +281,9 @@ export default {
   },
 
   methods: {
+
+ 
+
     selectRoom() {
       this.btnDisable = false;
       (this.message = null), (this.available = null);

@@ -53,13 +53,17 @@ class RoomTypeController extends PublicController
         foreach ($nodes as $node){
 
             $img = $node->getImages()->first();
+            $path = 'https://dummyimage.com/300x200/f0f0f0/fff.png&text=Profile';
+            if($img){
 
+                $path = asset('uploads/'.$img->path);
+            }
             $data[] = [
 
                 'title' => $node->getTitle(),
                 'slug' => $node->getName(),
                 'description' => plainText($node->description,100),
-                'image' => $img->path,
+                'image' => $path,
                 'price' => $node->price
             ];
         }
@@ -79,12 +83,26 @@ class RoomTypeController extends PublicController
             $no[] = $i;
         }
 
+
+        $photos = [];
+        $images = $node->getImages()->get();
+
+        if(count($images) > 0){
+
+            foreach ($images as $image){
+
+                $photos[] = asset('uploads/'.$image->path);
+            }
+        }
+
+
         $data['node'] = [
             'id' => $node->getKey(),
             'title' => $node->getTitle(),
-            'descrription' => $node->description,
+            'description' => strip_tags($node->description),
             'no_of_rooms' => $no,
-            'price' => $node->price
+            'price' => $node->price,
+            'images' => $photos
         ];
 
         return $data;

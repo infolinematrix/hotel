@@ -11,7 +11,7 @@
 
         <v-flex xs12 md4 sm6 v-for="node in this.nodes" :key="node.id">
           <v-card>
-            <v-img src="room1.jpg" aspect-ratio="1.75"></v-img>
+            <v-img :src="node.image" aspect-ratio="1.75"></v-img>
             <v-card-title primary-title>
               <h3 class="pa-0">
                 <nuxt-link :to="node.slug" class="title">{{ node.title }}</nuxt-link>
