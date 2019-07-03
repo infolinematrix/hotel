@@ -6,25 +6,21 @@
 
     <v-img src="/logo.png" max-width="300"></v-img>
 
-    <v-spacer/>
+    <v-spacer />
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat nuxt to="/">Home</v-btn>
-      <v-btn flat nuxt to="/rooms">Book Room</v-btn>
+      <v-btn flat nuxt to="/rooms">Rooms</v-btn>
       <v-btn flat nuxt to="/contact">Contact</v-btn>
     </v-toolbar-items>
 
-    <nuxt-link to="checkout" v-if="cart_counter > 0">
-    <v-badge right overlap>
-      <template v-slot:badge>
-        <span class="body-2">{{ cart_counter }}</span>
-      </template>
-      <v-icon
+    <nuxt-link to="checkout">
+      <v-badge right overlap>
+        <template v-slot:badge>
+          <span class="body-2">{{ cart_counter }}</span>
+        </template>
         
-        color="grey lighten-1"
-      >
-        shopping_cart
-      </v-icon>
-    </v-badge>
+        <v-icon color="grey lighten-1">shopping_cart</v-icon>
+      </v-badge>
     </nuxt-link>
   </v-toolbar>
 </template>
@@ -36,8 +32,8 @@ export default {
     ...mapGetters({
       cart_counter: "cart/cart_counter"
     })
-  },
-}
+  }
+};
 </script>
 
 
