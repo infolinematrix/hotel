@@ -1,5 +1,14 @@
 @extends('layout.base')
 
+@section('styles')
+    {!! Html::style('assets/plugin/datepicker/datepicker3.css') !!}
+
+@endsection
+@section('scripts')
+    @parent
+    {!! Html::script('assets/plugins/datepicker/bootstrap-datepicker.js') !!}
+
+@endsection
 <!-- Main content -->
 @section('content')
     <!-- Content Header (Page header) -->

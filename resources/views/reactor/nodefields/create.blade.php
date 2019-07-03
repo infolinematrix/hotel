@@ -36,9 +36,8 @@
                     </ul>
                 </div>
             @endif
-        <!-- /.box-header -->
+            <!-- /.box-header -->
             <div class="box-body">
-
                 <div class="row">
                     <div class="col-md-8 border-right">
 

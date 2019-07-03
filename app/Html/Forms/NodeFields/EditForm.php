@@ -46,9 +46,13 @@ class EditForm extends Form {
             'help_block' => ['text' => trans('hints.nodefields_default_value')]
         ]);
         $this->add('options', 'textarea', [
+            'attr' => ['rows' => 3],
             'help_block' => ['text' => trans('hints.nodefields_options')]
         ]);
-        $this->add('description', 'textarea');
+        $this->add('description', 'textarea',[
+            'attr' => ['rows' => 3]
+
+        ]);
 
         $this->add('indexed', 'select',[
             'choices' => trans('general.dropdown.yesno'),
