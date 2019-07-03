@@ -59,7 +59,17 @@
 
             <li class="">
                 <a href="{!! route('reactor.booking.index') !!}">
-                    <i class="fa fa-bed"></i> <span>Bookings</span>
+                    <i class="fa fa-bed"></i> <span>Booking History</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="sidebar-menu" data-widget="tree">
+
+
+            <li class="">
+                <a href="{!! route('reactor.booking.room') !!}">
+                    <i class="fa fa-bed"></i> <span>Book Room</span>
                 </a>
             </li>
         </ul>

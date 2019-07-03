@@ -37,16 +37,16 @@
                 </tr>
                 <tr>
                     <td align="center">
-                        <h2>Front-End UI/UX is under Development</h2>
+                        <h2>Welcome to Buddhaparkresidency</h2>
                     </td>
                 </tr>
                 <tr>
                     <td>
-<a href="http://45.33.57.159:3000">Front-End</a>
+<a href="{{ env('CLIENT_URL') }}">Front-End</a>
                     </td>
 
                     <td>
-                        <a href="http://45.33.57.159/admin">Back-End</a>
+                        <a href="{{ env('ADMIN_URL') }}" target="_blank">Back-End</a>
                     </td>
 
                 </tr>

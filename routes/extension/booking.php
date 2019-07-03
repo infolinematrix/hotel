@@ -20,9 +20,38 @@ Route::group([
 
 
         Route::get('/bookings', [
-            'uses' => '\Extension\Site\Http\Backend\BookingController@booking',
+            'uses' => '\Extension\Site\Http\Backend\BookingController@history',
             'as' => 'reactor.booking.index',
         ]);
+
+
+        Route::get('/room/book', [
+            'uses' => '\Extension\Site\Http\Backend\BookingController@check',
+            'as' => 'reactor.booking.room',
+        ]);
+
+        Route::post('/booking/check', [
+            'uses' => '\Extension\Site\Http\Backend\BookingController@checking',
+            'as' => 'reactor.booking.checking',
+        ]);
+
+
+        Route::get('/booking/available', [
+            'uses' => '\Extension\Site\Http\Backend\BookingController@available',
+            'as' => 'reactor.booking.available',
+        ]);
+
+        Route::post('/booking/process', [
+            'uses' => '\Extension\Site\Http\Backend\BookingController@process',
+            'as' => 'reactor.booking.process',
+        ]);
+
+        Route::post('/booking/confirmed', [
+            'uses' => '\Extension\Site\Http\Backend\BookingController@confirmed',
+            'as' => 'reactor.booking.confirmed',
+        ]);
+
+
 
         Route::get('/transactions', [
             'uses' => '\Extension\Site\Http\Backend\BookingController@transaction',

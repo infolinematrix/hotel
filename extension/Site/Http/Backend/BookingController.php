@@ -32,7 +32,7 @@ class BookingController extends ReactorController
     }
 
 
-    public function booking(){
+    public function history(){
 
         $roomtype = Node::withType('roomtype')->get();
         $nodes = Booking::orderBy('id','DESC')
@@ -40,6 +40,7 @@ class BookingController extends ReactorController
         return view('Site::backend.booking.index', compact('roomtype','nodes'));
 
     }
+
 
     public function bookingView($id){
 
@@ -93,5 +94,136 @@ class BookingController extends ReactorController
 
         return view('Site::backend.booking.view', compact('transaction','booking'));
 
+    }
+
+
+    public function check(){
+
+        $roomtype = Node::withType('roomtype')->get();
+
+        return view('Site::backend.booking.room', compact('roomtype'));
+
+    }
+
+    public function checking(Request $request){
+
+
+
+        $to_date = date('Y-m-d',strtotime($request->check_out));
+        $from_date = date('Y-m-d',strtotime($request->check_in));
+        $type = $request->room_type;
+
+        $nodes = Booking::where('check_in', '<', $to_date)
+            ->where('check_out', '>=', $from_date)
+            ->where('check_in', '<', $to_date)
+            ->where('check_out', '>', $from_date)
+            ->where('type', $type)
+            ->sum('no_of_rooms');
+
+
+
+        $rooms = Node::find($type);
+
+
+        if($rooms->no_of_rooms > $nodes){
+            $data = [
+
+                'check_in' => $from_date,
+                'check_out' => $to_date,
+                'type' => $type,
+                'no_of_rooms' => ($rooms->no_of_rooms - $nodes)
+            ];
+
+            \Session::put('booking',$data);
+            return redirect()->route('reactor.booking.available');
+
+        }else{
+
+            return redirect()->back()->with('message', "Sorry! no rooms are available...");
+
+        }
+    }
+
+    public function available(){
+
+
+        $data = \Session::get('booking');
+
+
+
+        $room = Node::find($data['type']);
+
+        $check_in = $data['check_in'];
+        $check_out = $data['check_out'];
+
+
+        $no_of_rooms = $data['no_of_rooms'];
+
+
+        return view('Site::backend.booking.available', compact('room','check_in','check_out','no_of_rooms'));
+    }
+
+    public function process(Request $request){
+
+
+        $check_in = $request->check_in;
+        $check_out = $request->check_out;
+
+        $datetime1 = date_create($check_in);
+        $datetime2 = date_create($check_out);
+        $days = date_diff($datetime1, $datetime2);
+
+
+        $rand = rand(111111,99999);
+        $room = Node::find($request->type);
+
+        $booking_details = [
+            'booking_id' => $rand,
+            'type' => $room->getKey(),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'rate' => $room->price,
+            'total_amount' => ($days->days * $request->no_of_rooms * $room->price),
+            'check_in' => $check_in,
+            'check_out' => $check_out,
+            'no_of_rooms' => $request->no_of_rooms,
+
+        ];
+
+
+        \Session::put('booking_details',$booking_details);
+
+        return view('Site::backend.booking.details', compact('booking_details'));
+
+    }
+
+
+
+    public function confirmed() {
+
+        $booking = \Session::get('booking_details');
+
+
+        $data = [
+            'booking_id' => $booking['booking_id'],
+            'type' => $booking['type'],
+            'first_name' => $booking['first_name'],
+            'last_name' => $booking['last_name'],
+            'phone' => $booking['phone'],
+            'email' => $booking['email'],
+            'rate' => $booking['rate'],
+            'total_amount' => $booking['total_amount'],
+            'check_in' => $booking['check_in'],
+            'check_out' => $booking['check_out'],
+            'no_of_rooms' => $booking['no_of_rooms'],
+
+        ];
+
+        Booking::insert($data);
+
+        $booking_ID = $booking['booking_id'];
+        return view('Site::backend.booking.success', compact('booking_ID'));
     }
 }

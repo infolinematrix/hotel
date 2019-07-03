@@ -7,7 +7,7 @@ export default {
   srcDir: 'client/',
 
   env: {
-    baseUrl: process.env.API_URL || 'http://localhost:8080/api',
+    baseUrl: process.env.API_URL || 'http://localhost:8000/api',
     appName: process.env.APP_NAME || 'Hotel',
     appLocale: process.env.APP_LOCALE || 'en',
     githubAuth: !!process.env.GITHUB_CLIENT_ID
@@ -106,5 +106,7 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
-  }
+  },
+
+ 
 }
