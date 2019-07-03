@@ -11,7 +11,9 @@
         <div class="box box-default">
             <div class="box-header with-border">
 
-                <form  method="post" action="{!! url('/admin/booking/search') !!}">
+                <!--<form  method="post" action="{!! url('/admin/booking/search') !!}">
+
+
                     {!! Form::token() !!}
                    <div class="row">
                        <div class="col-md-3">
@@ -48,7 +50,7 @@
 
                    </div>
                 </form>
-
+-->
 
             </div>
             <!-- /.box-header -->
@@ -76,7 +78,15 @@
 
                                 </td>
                                 <td>
-                                    {!! \Extension\Site\Entities\Transactions::where('booking_id',$node->booking_id)->first()->txn_id !!}
+                                    <?php
+                                    $txn = \Extension\Site\Entities\Transactions::where('booking_id',$node->booking_id)->first();
+
+                                    ?>
+                                    @if($txn)
+                                       {!! $txn->txn_id !!}
+                                    @else
+                                    Walking Guest
+                                    @endif
 
 
 

@@ -59,15 +59,23 @@
 
             <li class="">
                 <a href="{!! route('reactor.booking.index') !!}">
-                    <i class="fa fa-bed"></i> <span>Bookings</span>
+                    <i class="fa fa-bed"></i> <span>Booking History</span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="sidebar-menu" data-widget="tree">
+
+
+            <li class="">
+                <a href="{!! route('reactor.booking.room') !!}">
+                    <i class="fa fa-bed"></i> <span>Book Room</span>
                 </a>
             </li>
         </ul>
 
 
         <ul class="sidebar-menu" data-widget="tree">
-
-
             <li class="">
                 <a href="{!! route('reactor.transaction.index') !!}">
                     <i class="fa fa-rupee"></i> <span>Transactions</span>
@@ -76,7 +84,6 @@
         </ul>
 
         <hr class="divider">
-
 
         <ul class="sidebar-menu" data-widget="tree">
             <li class="">
@@ -94,10 +101,19 @@
             </li>
         </ul>
 
+        <hr class="divider">
 
-    
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="">
+                <a href="{!! route("reactor.travelpackage.index") !!}">
+                    <i class="fa fa-cab"></i> <span>Travel Package</span>
+                </a>
+            </li>
+        </ul>
 
-<!--
+
+
+    <!--
 
         <hr class="divider">
 

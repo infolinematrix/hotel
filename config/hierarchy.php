@@ -30,7 +30,7 @@ return [
         'wysiwyg' => 'text',
         'checkbox' => 'boolean',
         'select' => 'string',
-        'number' => 'number',
+        'number' => 'integer',
         'double' => 'double',
         'color' => 'string',
         'slug' => 'string',
