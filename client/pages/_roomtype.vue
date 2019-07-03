@@ -30,49 +30,49 @@
 
                     <v-layout row wrap>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">hotel</v-icon>
                           <p>Queen Bed (2+1)</p>
                         </div>
                       </v-flex>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">live_tv</v-icon>
                           <p>Settelite Tv</p>
                         </div>
                       </v-flex>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">hot_tub</v-icon>
                           <p>24 hours Hot water</p>
                         </div>
                       </v-flex>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">kitchen</v-icon>
                           <p>Covered Almirah</p>
                         </div>
                       </v-flex>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">touch_app</v-icon>
                           <p>Room Service</p>
                         </div>
                       </v-flex>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">wifi</v-icon>
                           <p>24 Hours Internet</p>
                         </div>
                       </v-flex>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">free_breakfast</v-icon>
                           <p>Tea Set</p>
                         </div>
                       </v-flex>
                       <v-flex xs6 md3>
-                        <div class="text-xs-center box pa-2">
+                        <div class="text-xs-center  pa-2">
                           <v-icon color="red" size="48" v-on="on">fastfood</v-icon>
                           <p>Breakfast</p>
                         </div>

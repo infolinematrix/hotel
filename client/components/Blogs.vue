@@ -5,11 +5,11 @@
               <v-flex xs12 md6 v-for="blog in blogs" :key="blog">
                 <v-card flat class="mb-3">
                   <v-layout>
-                    <v-flex xs5>
+                    <v-flex xs12 md5 sm5>
                     <v-img :src="blog.image" contain class></v-img>
                     
                     </v-flex>
-                    <v-flex xs7>
+                    <v-flex xs12 sm7 md7>
                       <v-card-title>
                        
                           <div class="font-weight-medium" >
