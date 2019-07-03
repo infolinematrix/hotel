@@ -100,6 +100,37 @@ class ApiController extends PublicController
 
     }
 
+    public function getPackages(){
+
+        $data = [];
+
+        $nodes = Node::withType('travelpackage')->published()->translatedIn(locale())->get();
+
+        foreach ($nodes as $node){
+
+            $discount_price = $node->price - ($node->price * (10/100));
+
+            setlocale(LC_MONETARY, 'en_IN');
+            $discount_price = money_format('%!i', $discount_price);
+            $price = money_format('%!i', $node->price);
+
+            $img = $node->getImages()->first();
+            $data[] = [
+
+                'id' => $node->getKey(),
+                'title' => $node->getTitle(),
+                'image' => asset('uploads/'.$img->path),
+                'price' => $discount_price,
+                'original_price' => $price,
+                'place_cover' => $node->place_cover,
+                'description' => strip_tags(str_limit($node->description,100)),
+            ];
+
+        }
+
+        return $data;
+    }
+
     public function getBlog(NodeRepository $nodeRepository, $name){
         $node = $nodeRepository->getNodeAndSetLocale($name, true, false);
 

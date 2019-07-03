@@ -73,6 +73,8 @@ Route::group(['middleware' => ['api','track'], 'namespace' => 'Extension\Site\Ht
     Route::get('blogs','ApiController@getBlogs');
     Route::get('blog/{slug}','ApiController@getBlog');
 
+    Route::get('packages','ApiController@getPackages');
+    
     // Contact
     Route::post('contact','ApiController@contact');
 

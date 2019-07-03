@@ -63,6 +63,15 @@ class EditTravelpackageForm extends Form {
             
 
         ]);
+                                $this->add('discount', 'double', [
+            'label' => 'Discount',
+            'help_block' => ['text' => ''],
+
+            
+            
+            
+
+        ]);
                     }
 
 }

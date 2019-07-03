@@ -11,14 +11,14 @@ class NsTravelpackage extends NodeSourceExtension {
     /**
      * The fillable fields for the model.
      */
-    protected $fillable = ['no_of_days', 'place_cover', 'pkgtype', 'price', 'description'];
+    protected $fillable = ['no_of_days', 'place_cover', 'pkgtype', 'price', 'description', 'discount'];
 
     /**
      * Returns the fields for the model
      */
     public static function getSourceFields()
     {
-        return ['no_of_days', 'place_cover', 'pkgtype', 'price', 'description'];
+        return ['no_of_days', 'place_cover', 'pkgtype', 'price', 'description', 'discount'];
     }
 
     /**

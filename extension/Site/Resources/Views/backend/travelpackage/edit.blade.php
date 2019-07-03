@@ -71,11 +71,17 @@
                                 </div>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            {!! form_row($form->price) !!}
-                                        </div>
-                                        <div class="col-md-3">
                                             {!! form_row($form->no_of_days) !!}
                                         </div>
+
+                                        <div class="col-md-3">
+                                            {!! form_row($form->price) !!}
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            {!! form_row($form->discount) !!}
+                                        </div>
+
                                     </div>
                                     <div class="row">
 
