@@ -103,8 +103,6 @@
                   </v-flex>
                 </v-layout>
 
-                
-
                 <v-card-actions class="pb-3">
                   <div class="pl-3">
                     <span class="title red--text font-weight-bold">1,250</span>
