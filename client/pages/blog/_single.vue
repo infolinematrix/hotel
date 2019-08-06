@@ -1,40 +1,46 @@
 <template>
   <v-layout row wrap justify-center align-center>
-    <v-flex xs12 md7>
-      <v-layout row wrap>
-        <v-flex xs12 class="text-xs-center mb-4">
-          <div class="headline font-weight-bold">{{ blog.title }}</div>
-        </v-flex>
-        <span></span>
-         <v-flex xs12 class="text-xs-center">
-          <v-img :src="blog.image"></v-img>
-         </v-flex>
-          <v-card-text class="pa-0">
-           <div class="blockquote" v-html="blog.description">
-           </div>
-          </v-card-text>
+    <v-flex xs12 md8>
+      <v-card class="mx-auto">
+        
 
-      </v-layout>
+        <v-card-text>
+          <v-card-title class="title">{{ blog.title }}</v-card-title>
+        </v-card-text>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-
 export default {
-  components: {},
-async asyncData({ params, $axios }) {
-    return await $axios.get(`blog/${params.single}`).then(res => {
-      return {
-        blog: res.data.node
-      };
-    });
-  },
-data() {
+  
+  data() {
     return {
-     
+      blog: null
     };
   },
- 
+
+  head: {
+    title: "Buddha Park Residency, Ravangla",
+    meta: [
+      // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "Buddha Park Residency at Ravangla is having 17 luxury Rooms with modern facilities."
+      }
+    ]
+  },
+
+  mounted() {
+    this.$axios.get("blog/" + this.$route.params.single).then(response => {
+      this.blog = response.data.node;
+      console.log(this.blog.title);
+    });
+
+    
+  }
 };
 </script>
