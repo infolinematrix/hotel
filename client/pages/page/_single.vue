@@ -1,12 +1,13 @@
 <template>
   <v-layout row wrap justify-center align-center>
-    <v-flex xs12 md7>
+    <v-flex xs12 md8>
       <v-layout row wrap>
         <v-flex xs12 class="text-xs-center mb-4">
           <div class="headline font-weight-bold">{{ page.title }}</div>
         </v-flex>
-           <div v-html="page.content">
-           </div>
+           <blockquote
+              class="blockquote" v-html="page.content">
+           </blockquote>
 
       </v-layout>
     </v-flex>

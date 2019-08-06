@@ -9,8 +9,8 @@
          <v-flex xs12 class="text-xs-center">
           <v-img :src="blog.image"></v-img>
          </v-flex>
-          <v-card-text>
-           <div v-html="blog.description">
+          <v-card-text class="pa-0">
+           <div class="blockquote" v-html="blog.description">
            </div>
           </v-card-text>
 
