@@ -22,7 +22,7 @@
     "nuxt-validate": "^0.1.2",
     "sweetalert2": "^7.19.3",
     "vform": "^1.0.0",
-    "vue-moment": "^4.0.0"
+    "vue-moment": "^4.1.0"
   },
   "devDependencies": {
     "stylus": "^0.54.5",
